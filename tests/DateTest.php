@@ -8,7 +8,7 @@ class DateTest extends TestCase
 {
     protected $date1;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->date1 = new Date("7.11.2020 12:45:14");
     }

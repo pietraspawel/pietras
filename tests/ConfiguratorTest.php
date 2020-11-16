@@ -8,7 +8,7 @@ class ConfiguratorTest extends TestCase
 {
     protected $conf1;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->conf1 = new Configurator();
         $this->conf1->loadConfiguration("konfiguracja1", __DIR__ . "/configuration1.json");

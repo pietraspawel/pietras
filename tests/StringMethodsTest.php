@@ -5,7 +5,7 @@ namespace pietras;
 use PHPUnit\Framework\TestCase;
 use pietras\StringMethods as sm;
 
-class StringTest extends TestCase
+class StringMethodsTest extends TestCase
 {
     public function testPlToLatin()
     {
