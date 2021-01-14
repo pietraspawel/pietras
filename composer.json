@@ -1,5 +1,8 @@
 {
     "autoload": {
         "psr-4": {"pietras\\": "src/"}
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
