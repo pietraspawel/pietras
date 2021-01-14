@@ -6,6 +6,11 @@ class Configurator
 {
     private $configuration;
 
+    public function __construct(string $index, string $filename)
+    {
+        $this->configuration[$index] = $this->loadConfiguration($index, $filename);
+    }
+
     /**
     * Funkcja ładuje konfigurację z pliku $filename do konfiguracji o nazwie $index.
     */

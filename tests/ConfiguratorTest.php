@@ -10,8 +10,7 @@ class ConfiguratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->conf1 = new Configurator();
-        $this->conf1->loadConfiguration("konfiguracja1", __DIR__ . "/configuration1.json");
+        $this->conf1 = new Configurator("konfiguracja1", __DIR__ . "/configuration1.json");
     }
 
     public function testLoadConfiguration()
