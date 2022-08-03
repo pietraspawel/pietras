@@ -1,6 +1,8 @@
 {
     "name": "pietras/basic",
     "description": "Basic classes to use in my projects.",
+    "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {"pietras\\": "src/"}
     },
