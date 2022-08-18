@@ -32,10 +32,6 @@ class Application
      */
     private $notices;
     /**
-     * @var array List of executed files.
-     */
-    private $filesExec;
-    /**
      * @var Url $url Actual url.
      */
     private $url;
@@ -65,7 +61,6 @@ class Application
         $this->cssVersion = $config["CSS_VERSION"];
         $this->errors = [];
         $this->notices = [];
-        $this->filesExec = [];
 
         if ($this->mode == "dev") {
             error_reporting(E_ALL);
@@ -184,16 +179,6 @@ class Application
     }
 
     /**
-     * Add file to executed files list.
-     *
-     * @param string $filepath
-     */
-    public function addFileExec(string $filepath)
-    {
-        $this->filesExec[] = $filepath;
-    }
-
-    /**
      * Return actual version of CSS files.
      *
      * @return string
@@ -229,16 +214,6 @@ class Application
     public function getErrors(): array
     {
         return $this->errors;
-    }
-
-    /**
-     * Return list of executed files.
-     *
-     * @return array
-     */
-    public function getFilesExec(): array
-    {
-        return $this->filesExec;
     }
 
     /**
