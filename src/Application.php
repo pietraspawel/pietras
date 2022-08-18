@@ -44,9 +44,9 @@ class Application
      */
     private $controller;
     /**
-     * @var Configurator $configurator Object keeps configuration.
+     * @var array $config Keeps configuration.
      */
-    private $configurator;
+    private $config;
     /**
      * @var \Twig\Environment $twig Obiekt Twiga.
      */
@@ -79,8 +79,6 @@ class Application
             "strict_variables" => true,
         ]);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
-
-        $this->configurator = new Configurator("database", __DIR__  . "/../config/db.json");
     }
 
     /**
@@ -268,9 +266,12 @@ class Application
         return $this->controller;
     }
 
-    public function getConfig(): Configurator
+    /**
+     * Zwraca konfigurację w formie tablicy.
+     */
+    public function getConfig(): ?array
     {
-        return $this->configurator;
+        return $this->config;
     }
 
     /**
@@ -280,6 +281,12 @@ class Application
     {
         $controllerName = "pietras\\Controller\\{$name}Controller";
         $this->controller = new $controllerName();
+        return $this;
+    }
+
+    public function setConfig(array $value): self
+    {
+        $this->config = $value;
         return $this;
     }
 }
