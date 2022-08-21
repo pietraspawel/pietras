@@ -1,6 +1,8 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
+
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Store application properties and provide methods to control it.
@@ -54,7 +56,8 @@ class Application
 
     public function __construct()
     {
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
+        // $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
+        $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->mode = $config["MODE"];
         $this->jsScripts = [];
         $this->jsVersion = $config["JS_VERSION"];
