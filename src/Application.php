@@ -26,6 +26,10 @@ class Application
      */
     private $cssVersion;
     /**
+     * @var array $cssFiles Array of filepaths to css files.
+     */
+    private $cssFiles;
+    /**
      * @var array List of errors;
      */
     private $errors;
@@ -91,7 +95,8 @@ class Application
         $this
             ->setJsVersion($config["JS_VERSION"])
             ->setJsScripts([])
-            ->setCssVersion($config["CSS_VERSION"]);
+            ->setCssVersion($config["CSS_VERSION"])
+            ->setCssFiles([]);
     }
 
     /**
@@ -197,6 +202,11 @@ class Application
     public function getCssVersion(): string
     {
         return $this->cssVersion;
+    }
+
+    public function getCssFiles(): array
+    {
+        return $this->cssFiles;
     }
 
     /**
@@ -318,6 +328,12 @@ class Application
     public function setCssVersion(string $value): self
     {
         $this->cssVersion = $value;
+        return $this;
+    }
+
+    public function setCssFiles(array $value): self
+    {
+        $this->cssFiles = $value;
         return $this;
     }
 }
