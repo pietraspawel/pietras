@@ -59,7 +59,6 @@ class Application
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
-        // $this->jsScripts = [];
         // $this->cssVersion = $config["CSS_VERSION"];
         // $this->errors = [];
         // $this->notices = [];
@@ -89,7 +88,9 @@ class Application
     private function __initVariables()
     {
         $config = $this->getConfig();
-        $this->setJsVersion($config["JS_VERSION"]);
+        $this
+            ->setJsVersion($config["JS_VERSION"])
+            ->setJsScripts([]);
     }
 
     /**
@@ -304,6 +305,12 @@ class Application
     public function setJsVersion(string $value): self
     {
         $this->jsVersion = $value;
+        return $this;
+    }
+
+    public function setJsScripts(array $value): self
+    {
+        $this->jsScripts = $value;
         return $this;
     }
 }
