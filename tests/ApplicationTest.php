@@ -37,7 +37,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getJsScripts());
         $this->assertEquals("0.0.0", $this->app->getCssVersion());
         $this->assertEquals([], $this->app->getCssFiles());
-        // $this->assertEquals([], $this->app->getErrors());
+        $this->assertEquals([], $this->app->getErrors());
         // $this->assertEquals([], $this->app->getNotices());
         // $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
         // $this->assertEquals([ "url1" => "url1", "url2" => "url2" ], $this->app->getUrls());

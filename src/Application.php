@@ -96,7 +96,8 @@ class Application
             ->setJsVersion($config["JS_VERSION"])
             ->setJsScripts([])
             ->setCssVersion($config["CSS_VERSION"])
-            ->setCssFiles([]);
+            ->setCssFiles([])
+            ->setErrors([]);
     }
 
     /**
@@ -334,6 +335,12 @@ class Application
     public function setCssFiles(array $value): self
     {
         $this->cssFiles = $value;
+        return $this;
+    }
+
+    public function setErrors(array $value): self
+    {
+        $this->errors = $value;
         return $this;
     }
 }
