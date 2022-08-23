@@ -27,10 +27,10 @@ class UrlTest extends TestCase
         $this->assertEquals("http://pietraspawel.pl/testowo", $this->url->getBaseUrl());
     }
 
-    // public function testParams()
-    // {
-        // $this->assertEquals("param1", $this->url->getParam(1));
-        // $this->assertEquals("param2", $this->url->getParam(2));
-        // $this->assertEquals("param3", $this->url->getParam(3));
-    // }
+    public function testParams()
+    {
+        $this->assertEquals("param1", $this->url->getParam(1));
+        $this->assertEquals("param2", $this->url->getParam(2));
+        $this->assertEquals("param3", $this->url->getParam(3));
+    }
 }
