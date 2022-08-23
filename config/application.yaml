@@ -1,4 +1,4 @@
 # testowa konfiguracja
 
-aaa: 11
+MODE: "dev"
 bbb: "22"

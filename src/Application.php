@@ -57,22 +57,16 @@ class Application
     public function __construct()
     {
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
-        // $this->mode = $config["MODE"];
+        $this->__setErrorReporting($this->getMode());
         // $this->jsScripts = [];
         // $this->jsVersion = $config["JS_VERSION"];
         // $this->cssVersion = $config["CSS_VERSION"];
         // $this->errors = [];
         // $this->notices = [];
-// 
-        // if ($this->mode == "dev") {
-            // error_reporting(E_ALL);
-        // } else {
-            // error_reporting(0);
-        // }
-// 
+//
         // $this->url = new Url($config["PARTOFURITOSKIP"]);
         // $this->urlBase = "http://" . $_SERVER["HTTP_HOST"] . $config["PARTOFURITOSKIP"];
-// 
+//
         // $debug = $this->mode === "dev" ? true : false;
         // $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . $config["templates_path"]);
         // $this->twig = new \Twig\Environment($loader, [
@@ -81,6 +75,15 @@ class Application
             // "strict_variables" => true,
         // ]);
         // $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+    }
+
+    private function __setErrorReporting($mode)
+    {
+        if ($mode == "dev") {
+            error_reporting(E_ALL);
+        } else {
+            error_reporting(0);
+        }
     }
 
     /**
@@ -221,7 +224,7 @@ class Application
      */
     public function getMode(): string
     {
-        return $this->mode;
+        return $this->config["MODE"];
     }
 
     /**
