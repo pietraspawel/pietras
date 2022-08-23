@@ -52,4 +52,12 @@ class Url
     {
         return $this->param[$key] ?? "";
     }
+
+    /**
+     * Return full URI.
+     */
+    public function getFullUrl(): string
+    {
+        return $_SERVER["REQUEST_URI"];
+    }
 }
