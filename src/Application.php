@@ -58,8 +58,8 @@ class Application
     {
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
+        $this->__initVariables();
         // $this->jsScripts = [];
-        // $this->jsVersion = $config["JS_VERSION"];
         // $this->cssVersion = $config["CSS_VERSION"];
         // $this->errors = [];
         // $this->notices = [];
@@ -84,6 +84,12 @@ class Application
         } else {
             error_reporting(0);
         }
+    }
+
+    private function __initVariables()
+    {
+        $config = $this->getConfig();
+        $this->setJsVersion($config["JS_VERSION"]);
     }
 
     /**
@@ -206,7 +212,7 @@ class Application
      */
     public function getJSVersion(): string
     {
-        return $this->jsVersion;
+        return $this->getConfig()["JS_VERSION"];
     }
 
     /**
@@ -292,6 +298,12 @@ class Application
     public function setConfig(array $value): self
     {
         $this->config = $value;
+        return $this;
+    }
+
+    public function setJsVersion(string $value): self
+    {
+        $this->jsVersion = $value;
         return $this;
     }
 }
