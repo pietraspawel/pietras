@@ -60,4 +60,9 @@ class Url
     {
         return $_SERVER["REQUEST_URI"];
     }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
+    }
 }

@@ -22,11 +22,11 @@ class UrlTest extends TestCase
         );
     }
 
-    // public function testBasicUrl()
-    // {
-        // $this->assertEquals("http://pietraspawel.pl/testowo", $this->url->getBaseUrl());
-    // }
-//
+    public function testBasicUrl()
+    {
+        $this->assertEquals("http://pietraspawel.pl/testowo", $this->url->getBaseUrl());
+    }
+
     // public function testParams()
     // {
         // $this->assertEquals("param1", $this->url->getParam(1));
