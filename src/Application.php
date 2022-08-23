@@ -97,7 +97,8 @@ class Application
             ->setJsScripts([])
             ->setCssVersion($config["CSS_VERSION"])
             ->setCssFiles([])
-            ->setErrors([]);
+            ->setErrors([])
+            ->setNotices([]);
     }
 
     /**
@@ -341,6 +342,12 @@ class Application
     public function setErrors(array $value): self
     {
         $this->errors = $value;
+        return $this;
+    }
+
+    public function setNotices(array $value): self
+    {
+        $this->notices = $value;
         return $this;
     }
 }
