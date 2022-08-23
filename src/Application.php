@@ -90,7 +90,8 @@ class Application
         $config = $this->getConfig();
         $this
             ->setJsVersion($config["JS_VERSION"])
-            ->setJsScripts([]);
+            ->setJsScripts([])
+            ->setCssVersion($config["CSS_VERSION"]);
     }
 
     /**
@@ -311,6 +312,12 @@ class Application
     public function setJsScripts(array $value): self
     {
         $this->jsScripts = $value;
+        return $this;
+    }
+
+    public function setCssVersion(string $value): self
+    {
+        $this->cssVersion = $value;
         return $this;
     }
 }

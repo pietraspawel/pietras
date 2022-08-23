@@ -12,11 +12,11 @@ class ApplicationTest extends TestCase
     protected function setUp(): void
     {
         $this->app = new \pietras\basic\Application();
-        $this->config = 
-            [ 
+        $this->config =
+            [
                 "MODE" => "dev",
-                "JS_VERSION" => "0.0.0", 
-                "bbb" => "22", 
+                "JS_VERSION" => "0.0.0",
+                "CSS_VERSION" => "0.0.0",
             ];
     }
 
@@ -35,7 +35,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals("dev", $this->app->getMode());
         $this->assertEquals("0.0.0", $this->app->getJsVersion());
         $this->assertEquals([], $this->app->getJsScripts());
-        // $this->assertEquals("0.0.0", $this->app->getCssVersion());
+        $this->assertEquals("0.0.0", $this->app->getCssVersion());
         // $this->assertEquals([], $this->app->getCssFiles());
         // $this->assertEquals([], $this->app->getErrors());
         // $this->assertEquals([], $this->app->getNotices());
