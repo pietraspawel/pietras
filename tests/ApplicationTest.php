@@ -44,12 +44,14 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getNotices());
         $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
         $this->assertEquals([], $this->app->getRenderVars());
-        // $this->assertEquals([ "url1" => "url1", "url2" => "url2" ], $this->app->getUrls());
-        // $this->assertEquals([], $this->app->getRenderVars());
     }
 
     public function testRenderVars()
     {
-        
+        $this->assertEquals([], $this->app->getRenderVars());
+        $this->app->addRenderVar([ "aaa" => 111 ]);
+        $this->assertEquals([ "aaa" => 111 ], $this->app->getRenderVars());
+        $this->app->addRenderVar([ "bbb" => 222, "ccc" => 333, "aaa" => 11 ]);
+        $this->assertEquals([ "aaa" => 11, "bbb" => 222, "ccc" => 333 ], $this->app->getRenderVars());
     }
 }
