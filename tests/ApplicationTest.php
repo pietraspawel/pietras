@@ -20,6 +20,8 @@ class ApplicationTest extends TestCase
                 "JS_VERSION" => "0.0.0",
                 "CSS_VERSION" => "0.0.0",
                 "base_url" => "http://pietraspawel.pl/testowisko",
+                "templates_path" => "templates",
+                "cache_path" => "cache",
             ];
     }
 

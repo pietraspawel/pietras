@@ -64,15 +64,7 @@ class Application
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
-//
-        // $debug = $this->mode === "dev" ? true : false;
-        // $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . $config["templates_path"]);
-        // $this->twig = new \Twig\Environment($loader, [
-            // "cache" => __DIR__ . $config["cache_path"],
-            // "debug" => $debug,
-            // "strict_variables" => true,
-        // ]);
-        // $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        $this->__initTwig();
     }
 
     private function __setErrorReporting($mode)
@@ -96,6 +88,19 @@ class Application
             ->setNotices([])
             ->setUrl(new Url($config["base_url"]));
         $this->renderVars = [];
+    }
+
+    private function __initTwig()
+    {
+        $config = $this->getConfig();
+        $debug = $this->getMode() === "dev" ? true : false;
+        $loader = new \Twig\Loader\FilesystemLoader($config["templates_path"]);
+        $this->twig = new \Twig\Environment($loader, [
+            "cache" => $config["cache_path"],
+            "debug" => $debug,
+            "strict_variables" => true,
+        ]);
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
     }
 
     /**
