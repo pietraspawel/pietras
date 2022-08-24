@@ -11,12 +11,15 @@ class ApplicationTest extends TestCase
 
     protected function setUp(): void
     {
+        $_SERVER["REQUEST_URI"] = "http://pietraspawel.pl/testowisko/param1/param2/param3?aaa=1&bbb=dupa";
+
         $this->app = new \pietras\basic\Application();
         $this->config =
             [
                 "MODE" => "dev",
                 "JS_VERSION" => "0.0.0",
                 "CSS_VERSION" => "0.0.0",
+                "base_url" => "http://pietraspawel.pl/testowisko",
             ];
     }
 
@@ -39,7 +42,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getCssFiles());
         $this->assertEquals([], $this->app->getErrors());
         $this->assertEquals([], $this->app->getNotices());
-        // $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
+        $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
         // $this->assertEquals([ "url1" => "url1", "url2" => "url2" ], $this->app->getUrls());
         // $this->assertEquals([], $this->app->getRenderVars());
     }

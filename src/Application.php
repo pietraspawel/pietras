@@ -42,10 +42,6 @@ class Application
      */
     private $url;
     /**
-     * @var string $urlBase Application URL without parameters.
-     */
-    private $urlBase;
-    /**
      * @var Controller $contoller Controller object.
      */
     private $controller;
@@ -63,12 +59,6 @@ class Application
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
-        // $this->cssVersion = $config["CSS_VERSION"];
-        // $this->errors = [];
-        // $this->notices = [];
-//
-        // $this->url = new Url($config["PARTOFURITOSKIP"]);
-        // $this->urlBase = "http://" . $_SERVER["HTTP_HOST"] . $config["PARTOFURITOSKIP"];
 //
         // $debug = $this->mode === "dev" ? true : false;
         // $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . $config["templates_path"]);
@@ -98,7 +88,8 @@ class Application
             ->setCssVersion($config["CSS_VERSION"])
             ->setCssFiles([])
             ->setErrors([])
-            ->setNotices([]);
+            ->setNotices([])
+            ->setUrl(new Url($config["base_url"]));
     }
 
     /**
@@ -280,7 +271,7 @@ class Application
      */
     public function getUrlBase(): string
     {
-        return $this->urlBase;
+        return $this->url->getBaseUrl();
     }
 
     /**
@@ -348,6 +339,12 @@ class Application
     public function setNotices(array $value): self
     {
         $this->notices = $value;
+        return $this;
+    }
+
+    public function setUrl(Url $url): self
+    {
+        $this->url = $url;
         return $this;
     }
 }
