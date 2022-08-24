@@ -53,6 +53,11 @@ class Application
      * @var \Twig\Environment $twig Obiekt Twiga.
      */
     private $twig;
+    /**
+     * Global variables, which are sended to every twig template.
+     * @var array $globalRenderVars
+     */
+    private $renderVars;
 
     public function __construct()
     {
@@ -90,6 +95,7 @@ class Application
             ->setErrors([])
             ->setNotices([])
             ->setUrl(new Url($config["base_url"]));
+        $this->renderVars = [];
     }
 
     /**
@@ -184,6 +190,18 @@ class Application
     public function addNotice(string $notice): self
     {
         $this->notices[] = $notice;
+        return $this;
+    }
+
+    /**
+     * Add $variable to $this->renderVars.
+     * It should be array like [ variableName => value ].
+     */
+    public function addRenderVar(array $variable): self
+    {
+        foreach ($variable as $key => $value) {
+            $this->renderVars[$key] = $value;
+        }
         return $this;
     }
 
@@ -288,6 +306,11 @@ class Application
     public function getConfig(): ?array
     {
         return $this->config;
+    }
+
+    public function getRenderVars(): array
+    {
+        return $this->renderVars;
     }
 
     /**

@@ -43,7 +43,13 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getErrors());
         $this->assertEquals([], $this->app->getNotices());
         $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
+        $this->assertEquals([], $this->app->getRenderVars());
         // $this->assertEquals([ "url1" => "url1", "url2" => "url2" ], $this->app->getUrls());
         // $this->assertEquals([], $this->app->getRenderVars());
+    }
+
+    public function testRenderVars()
+    {
+        
     }
 }
