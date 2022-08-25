@@ -88,6 +88,9 @@ class ApplicationTest extends TestCase
         $string = file_get_contents("templates/output.htm");
         $this->app->addCss("http://pietraspawel.pl/testowisko/css/inny_plik.css");
         $this->app->addJsScript("http://pietraspawel.pl/testowisko/js/any_js.js");
+        $this->app->addNotice("Powiadomienie pierwsze");
+        $this->app->addNotice("Notatka druga");
+        $this->app->addNotice("Jakiś crap");
 
         $this->assertEquals($string, $this->app->render("test.twig"));
     }

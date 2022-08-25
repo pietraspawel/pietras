@@ -12,11 +12,14 @@ urlJs = [
 {% endfor %}
 ]
 errors = [
+{% for item in errors %}
+    {{ item }}
+{% endfor %}
 ]
 notices = [
-    Powiadomienie pierwsze
-    Notatka druga
-    Jakiś crap
+{% for item in notices %}
+    {{ item }}
+{% endfor %}
 ]
 basetext = [
     menu = [
