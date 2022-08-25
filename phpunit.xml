@@ -15,4 +15,7 @@
   <testsuite name="default">
     <directory suffix="Test.php">tests</directory>
   </testsuite>
+  <php>
+     <const name="PHPUNIT_TESTING" value="true"/>
+  </php>
 </phpunit>

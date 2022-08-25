@@ -62,9 +62,14 @@ class Application
      * @var Database $database Database handler.
      */
     private $database;
+    /**
+     * Tells if phpunit test is running.
+     */
+    private $isTest;
 
     public function __construct()
     {
+        $this->isTest = PHPUNIT_TESTING ?? false;
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
@@ -354,6 +359,11 @@ class Application
     public function getDatabase(): ?Database
     {
         return $this->database;
+    }
+
+    public function isTest(): bool
+    {
+        return $this->isTest;
     }
 
     /**

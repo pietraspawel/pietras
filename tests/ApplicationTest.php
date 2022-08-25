@@ -67,4 +67,9 @@ class ApplicationTest extends TestCase
         ];
         $this->assertEquals($array, $this->app->getTranslation("test"));
     }
+
+    public function testIsTest()
+    {
+        $this->assertTrue($this->app->isTest());
+    }
 }
