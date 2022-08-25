@@ -134,9 +134,7 @@ class Application
 
     private function __initSession()
     {
-        // Check first if headers sent,
-        // otherwise it print error in unit tests.
-        if (!headers_sent()) {
+        if (!$this->isTest()) {
             session_start();
         }
     }
