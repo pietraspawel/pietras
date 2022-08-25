@@ -70,6 +70,7 @@ class Application
         $this->__initVariables();
         $this->__initTwig();
         $this->__initDatabase();
+        $this->__initSession();
     }
 
     private function __setErrorReporting($mode)
@@ -123,6 +124,15 @@ class Application
                 echo "Database connection error.";
             }
             die();
+        }
+    }
+
+    private function __initSession()
+    {
+        // Check first if headers sent,
+        // otherwise it print error in unit tests.
+        if (!headers_sent()) {
+            session_start();
         }
     }
 
