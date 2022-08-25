@@ -7,7 +7,9 @@ urlCss = [
 {% endfor %}
 ]
 urlJs = [
-    http://pietraspawel.pl/testowisko/js/any_js.js?0.0.0
+{% for item in urlJs %}
+    {{ item }}
+{% endfor %}
 ]
 errors = [
 ]
