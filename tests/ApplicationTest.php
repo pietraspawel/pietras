@@ -72,4 +72,10 @@ class ApplicationTest extends TestCase
     {
         $this->assertTrue($this->app->isTest());
     }
+
+    public function testRender()
+    {
+        $string = file_get_contents("templates/output.htm");
+        $this->assertEquals($string, $this->app->render("test.twig"));
+    }
 }

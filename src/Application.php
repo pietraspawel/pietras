@@ -155,17 +155,14 @@ class Application
     public function render(string $templateFilename, string $translationFilename = null, ?array $userArgs = []): string
     {
         $globalArgs = [
-            "urlBase" => $this->urlBase,
-            "urlCss" => [
-                "{$this->urlBase}css/bootstrap.min.css?{$this->cssVersion}",
-                "{$this->urlBase}css/style.css?{$this->cssVersion}",
-            ],
+            "urlBase" => $this->getUrlBase(),
+            "urlCss" => [ "{$this->getUrlBase()}/css/style.css?{$this->getCssVersion()}", ],
             "urlJs" => [],
             "errors" => [],
             "notices" => [],
         ];
         foreach ($this->jsScripts as $value) {
-            $globalArgs["urlJs"][] = "$value?" . $this->jsVersion;
+            $globalArgs["urlJs"][] = "$value?" . $this->getJsVersion();
         }
         foreach ($this->errors as $value) {
             $globalArgs["errors"][] = $value;
@@ -173,14 +170,10 @@ class Application
         foreach ($this->notices as $value) {
             $globalArgs["notices"][] = $value;
         }
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
-        $translation = [
-            "basetext" =>
-                json_decode(file_get_contents(__DIR__  . $config["translation_path"] . "base.json"), true),
-        ];
+        $path = $this->getConfig()["translation_path"];
+        $translation = [ "basetext" => Yaml::parseFile("{$path}/base.yaml"), ];
         if ($translationFilename !== null) {
-            $translation["text"] =
-                json_decode(file_get_contents(__DIR__  . $config["translation_path"] . $translationFilename), true);
+            $translation = [ "text" => Yaml::parseFile("{$path}/{$translationFilename}.yaml"), ];
         }
         $args = array_merge($globalArgs, $userArgs, $translation);
         return $this->twig->render($templateFilename, $args);
