@@ -110,7 +110,7 @@ class Application
 
     private function __initDatabase()
     {
-        $dbConfig = $this->configurator->loadConfiguration("database", __DIR__  . "/../config/db.yaml");
+        $dbConfig = (Yaml::parseFile("config/database.yaml"));
         $host = $dbConfig["DB_HOST"];
         $user = $dbConfig["DB_USER"];
         $pass = $dbConfig["DB_PASS"];
