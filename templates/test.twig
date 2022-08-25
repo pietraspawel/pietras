@@ -22,10 +22,13 @@ notices = [
 {% endfor %}
 ]
 basetext = [
-    menu = [
-        menu1 = menu1
-        menu2 = menu2
+{% for key, item in basetext %}
+    {{ key }} = [
+{% for key2, item2 in item %}
+        {{ key2 }} = {{ item2 }}
+{% endfor %}
     ]
+{% endfor %}
 ]
 text = [
     keyboard = klawiatura
