@@ -31,7 +31,7 @@ basetext = [
 {% endfor %}
 ]
 text = [
-    keyboard = klawiatura
-    test = test
-    notebook = zeszyt
+{% for key, item in text %}
+    {{ key }} = {{ item }}
+{% endfor %}
 ]

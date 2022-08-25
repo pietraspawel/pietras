@@ -65,7 +65,7 @@ class ApplicationTest extends TestCase
             "test" => "test",
             "notebook" => "zeszyt",
         ];
-        $this->assertEquals($array, $this->app->getTranslation("test"));
+        $this->assertEquals($array, $this->app->getTranslation("test.yaml"));
     }
 
     public function testIsTest()
@@ -92,6 +92,6 @@ class ApplicationTest extends TestCase
         $this->app->addNotice("Notatka druga");
         $this->app->addNotice("Jakiś crap");
 
-        $this->assertEquals($string, $this->app->render("test.twig"));
+        $this->assertEquals($string, $this->app->render("test.twig", "test.yaml"));
     }
 }

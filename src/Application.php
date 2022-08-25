@@ -146,7 +146,7 @@ class Application
     public function getTranslation(string $translationFilename): ?array
     {
         $path = $this->getConfig()["translation_path"];
-        return Yaml::parseFile("{$path}/{$translationFilename}.yaml");
+        return Yaml::parseFile("{$path}/{$translationFilename}");
     }
 
     /**
@@ -177,7 +177,7 @@ class Application
         $path = $this->getConfig()["translation_path"];
         $translation = [ "basetext" => Yaml::parseFile("{$path}/base.yaml"), ];
         if ($translationFilename !== null) {
-            $translation = [ "text" => Yaml::parseFile("{$path}/{$translationFilename}.yaml"), ];
+            $translation["text"] = Yaml::parseFile("{$path}/{$translationFilename}");
         }
         $args = array_merge($globalArgs, $userArgs, $translation);
         return $this->twig->render($templateFilename, $args);
