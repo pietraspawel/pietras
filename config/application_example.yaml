@@ -3,6 +3,6 @@
 MODE: "dev"
 JS_VERSION: "0.0.0"
 CSS_VERSION: "0.0.0"
-base_url: "http://pietraspawel.pl/testowisko"
+base_url: "http://mydomain.pl/site"
 templates_path: "templates"
 cache_path: "cache"

@@ -58,6 +58,10 @@ class Application
      * @var array $globalRenderVars
      */
     private $renderVars;
+    /**
+     * @var Database $database Database handler.
+     */
+    private $database;
 
     public function __construct()
     {
@@ -65,6 +69,7 @@ class Application
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
         $this->__initTwig();
+        $this->__initDatabase();
     }
 
     private function __setErrorReporting($mode)
@@ -101,6 +106,24 @@ class Application
             "strict_variables" => true,
         ]);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+    }
+
+    private function __initDatabase()
+    {
+        $dbConfig = $this->configurator->loadConfiguration("database", __DIR__  . "/../config/db.yaml");
+        $host = $dbConfig["DB_HOST"];
+        $user = $dbConfig["DB_USER"];
+        $pass = $dbConfig["DB_PASS"];
+        $databaseName = $dbConfig["DB_NAME"];
+        $this->database = new Database($host, $user, $pass, $databaseName);
+        if ($this->database->connect_error !== null) {
+            if ($this->getMode() == "dev") {
+                trigger_error("Database connection error: " . $this->database->connect_error, E_USER_ERROR);
+            } else {
+                echo "Database connection error.";
+            }
+            die();
+        }
     }
 
     /**
@@ -316,6 +339,11 @@ class Application
     public function getRenderVars(): array
     {
         return $this->renderVars;
+    }
+
+    public function getDatabase(): ?Database
+    {
+        return $this->database;
     }
 
     /**

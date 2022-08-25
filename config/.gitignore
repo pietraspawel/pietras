@@ -1,0 +1,4 @@
+*.yaml
+
+!application_example.yaml
+!database_example.yaml
