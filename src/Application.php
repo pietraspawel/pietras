@@ -99,6 +99,7 @@ class Application
             ->setNotices([])
             ->setUrl(new Url($config["base_url"]));
         $this->renderVars = [];
+        $this->addCss("{$this->getUrlBase()}/css/style.css");
     }
 
     private function __initTwig()
@@ -156,11 +157,14 @@ class Application
     {
         $globalArgs = [
             "urlBase" => $this->getUrlBase(),
-            "urlCss" => [ "{$this->getUrlBase()}/css/style.css?{$this->getCssVersion()}", ],
+            "urlCss" => [],
             "urlJs" => [],
             "errors" => [],
             "notices" => [],
         ];
+        foreach ($this->cssFiles as $value) {
+            $globalArgs["urlCss"][] = $value;
+        }
         foreach ($this->jsScripts as $value) {
             $globalArgs["urlJs"][] = "$value?" . $this->getJsVersion();
         }
@@ -177,6 +181,15 @@ class Application
         }
         $args = array_merge($globalArgs, $userArgs, $translation);
         return $this->twig->render($templateFilename, $args);
+    }
+
+    public function addCss(string $path): self
+    {
+        $path .= "?{$this->getCssVersion()}";
+        if (!in_array($path, $this->getCssFiles())) {
+            $this->cssFiles[] = $path;
+        }
+        return $this;
     }
 
     /**
