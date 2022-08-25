@@ -22,6 +22,7 @@ class ApplicationTest extends TestCase
                 "base_url" => "http://pietraspawel.pl/testowisko",
                 "templates_path" => "templates",
                 "cache_path" => "cache",
+                "translation_path" => "translation/pl",
             ];
     }
 
@@ -55,5 +56,15 @@ class ApplicationTest extends TestCase
         $this->assertEquals([ "aaa" => 111 ], $this->app->getRenderVars());
         $this->app->addRenderVar([ "bbb" => 222, "ccc" => 333, "aaa" => 11 ]);
         $this->assertEquals([ "aaa" => 11, "bbb" => 222, "ccc" => 333 ], $this->app->getRenderVars());
+    }
+
+    public function testGetTranslation()
+    {
+        $array = [
+            "keyboard" => "klawiatura",
+            "test" => "test",
+            "notebook" => "zeszyt",
+        ];
+        $this->assertEquals($array, $this->app->getTranslation("test"));
     }
 }

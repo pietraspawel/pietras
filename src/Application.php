@@ -141,8 +141,8 @@ class Application
      */
     public function getTranslation(string $translationFilename): ?array
     {
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
-        return json_decode(file_get_contents(__DIR__  . $config["translation_path"] . $translationFilename), true);
+        $path = $this->getConfig()["translation_path"];
+        return Yaml::parseFile("{$path}/{$translationFilename}.yaml");
     }
 
     /**
