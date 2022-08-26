@@ -223,7 +223,7 @@ class Application
         $paths = scandir($folderPath);
         foreach ($paths as $path) {
             if (substr($path, -strlen(".js")) == ".js") {
-                $this->addJsScript("$folderPath$path");
+                $this->addJsScript("$folderPath/$path");
             }
         }
         return $this;

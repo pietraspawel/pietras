@@ -96,4 +96,15 @@ class ApplicationTest extends TestCase
 
         $this->assertEquals($string, $this->app->render("test.twig", "test.yaml", $userArgs));
     }
+
+    public function testAddJsFolder()
+    {
+        $array = [
+            "js/empty1.js",
+            "js/empty2.js",
+        ];
+        $this->assertEmpty($this->app->getJsScripts());
+        $this->app->addJsFolder("js");
+        $this->assertEquals($array, $this->app->getJsScripts());
+    }
 }
