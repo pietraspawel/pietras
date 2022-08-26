@@ -69,7 +69,10 @@ class Application
 
     public function __construct()
     {
-        $this->isTest = PHPUNIT_TESTING ?? false;
+        $this->isTest = false;
+        if (defined('PHPUNIT_TESTING')) {
+            $this->isTest = PHPUNIT_TESTING ?? false;
+        }
         $this->setConfig(Yaml::parseFile("config/application.yaml"));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
