@@ -179,7 +179,7 @@ class Application
         if ($translationFilename !== null) {
             $translation["text"] = Yaml::parseFile("{$path}/{$translationFilename}");
         }
-        $args = array_merge($globalArgs, $userArgs, $translation);
+        $args = array_merge($globalArgs, $this->getRenderVars(), $userArgs, $translation);
         return $this->twig->render($templateFilename, $args);
     }
 

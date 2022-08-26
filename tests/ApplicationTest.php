@@ -92,6 +92,7 @@ class ApplicationTest extends TestCase
         $this->app->addNotice("Notatka druga");
         $this->app->addNotice("Jakiś crap");
         $userArgs = [ "userArg1" => "aaa", "userArg2" => "bbb" ];
+        $this->app->addRenderVar([ "renderVar1" => "rv1" ]);
 
         $this->assertEquals($string, $this->app->render("test.twig", "test.yaml", $userArgs));
     }
