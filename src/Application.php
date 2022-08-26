@@ -1,6 +1,8 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
+
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Store application properties and provide methods to control it.
@@ -24,6 +26,10 @@ class Application
      */
     private $cssVersion;
     /**
+     * @var array $cssFiles Array of filepaths to css files.
+     */
+    private $cssFiles;
+    /**
      * @var array List of errors;
      */
     private $errors;
@@ -32,60 +38,106 @@ class Application
      */
     private $notices;
     /**
-     * @var array List of executed files.
-     */
-    private $filesExec;
-    /**
      * @var Url $url Actual url.
      */
     private $url;
-    /**
-     * @var string $urlBase Application URL without parameters.
-     */
-    private $urlBase;
     /**
      * @var Controller $contoller Controller object.
      */
     private $controller;
     /**
-     * @var Configurator $configurator Object keeps configuration.
+     * @var array $config Keeps configuration.
      */
-    private $configurator;
+    private $config;
     /**
      * @var \Twig\Environment $twig Obiekt Twiga.
      */
     private $twig;
+    /**
+     * Global variables, which are sended to every twig template.
+     * @var array $globalRenderVars
+     */
+    private $renderVars;
+    /**
+     * @var Database $database Database handler.
+     */
+    private $database;
+    /**
+     * Tells if phpunit test is running.
+     */
+    private $isTest;
 
     public function __construct()
     {
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
-        $this->mode = $config["MODE"];
-        $this->jsScripts = [];
-        $this->jsVersion = $config["JS_VERSION"];
-        $this->cssVersion = $config["CSS_VERSION"];
-        $this->errors = [];
-        $this->notices = [];
-        $this->filesExec = [];
+        $this->isTest = PHPUNIT_TESTING ?? false;
+        $this->setConfig(Yaml::parseFile("config/application.yaml"));
+        $this->__setErrorReporting($this->getMode());
+        $this->__initVariables();
+        $this->__initTwig();
+        $this->__initDatabase();
+        $this->__initSession();
+    }
 
-        if ($this->mode == "dev") {
+    private function __setErrorReporting($mode)
+    {
+        if ($mode == "dev") {
             error_reporting(E_ALL);
         } else {
             error_reporting(0);
         }
+    }
 
-        $this->url = new Url($config["PARTOFURITOSKIP"]);
-        $this->urlBase = "http://" . $_SERVER["HTTP_HOST"] . $config["PARTOFURITOSKIP"];
+    private function __initVariables()
+    {
+        $config = $this->getConfig();
+        $this
+            ->setJsVersion($config["JS_VERSION"])
+            ->setJsScripts([])
+            ->setCssVersion($config["CSS_VERSION"])
+            ->setCssFiles([])
+            ->setErrors([])
+            ->setNotices([])
+            ->setUrl(new Url($config["base_url"]));
+        $this->renderVars = [];
+        $this->addCss("{$this->getUrlBase()}/css/style.css");
+    }
 
-        $debug = $this->mode === "dev" ? true : false;
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . $config["templates_path"]);
+    private function __initTwig()
+    {
+        $config = $this->getConfig();
+        $debug = $this->getMode() === "dev" ? true : false;
+        $loader = new \Twig\Loader\FilesystemLoader($config["templates_path"]);
         $this->twig = new \Twig\Environment($loader, [
-            "cache" => __DIR__ . $config["cache_path"],
+            "cache" => $config["cache_path"],
             "debug" => $debug,
             "strict_variables" => true,
         ]);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+    }
 
-        $this->configurator = new Configurator("database", __DIR__  . "/../config/db.json");
+    private function __initDatabase()
+    {
+        $dbConfig = (Yaml::parseFile("config/database.yaml"));
+        $host = $dbConfig["DB_HOST"];
+        $user = $dbConfig["DB_USER"];
+        $pass = $dbConfig["DB_PASS"];
+        $databaseName = $dbConfig["DB_NAME"];
+        $this->database = new Database($host, $user, $pass, $databaseName);
+        if ($this->database->connect_error !== null) {
+            if ($this->getMode() == "dev") {
+                trigger_error("Database connection error: " . $this->database->connect_error, E_USER_ERROR);
+            } else {
+                echo "Database connection error.";
+            }
+            die();
+        }
+    }
+
+    private function __initSession()
+    {
+        if (!$this->isTest()) {
+            session_start();
+        }
     }
 
     /**
@@ -93,8 +145,8 @@ class Application
      */
     public function getTranslation(string $translationFilename): ?array
     {
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
-        return json_decode(file_get_contents(__DIR__  . $config["translation_path"] . $translationFilename), true);
+        $path = $this->getConfig()["translation_path"];
+        return Yaml::parseFile("{$path}/{$translationFilename}");
     }
 
     /**
@@ -104,17 +156,17 @@ class Application
     public function render(string $templateFilename, string $translationFilename = null, ?array $userArgs = []): string
     {
         $globalArgs = [
-            "urlBase" => $this->urlBase,
-            "urlCss" => [
-                "{$this->urlBase}css/bootstrap.min.css?{$this->cssVersion}",
-                "{$this->urlBase}css/style.css?{$this->cssVersion}",
-            ],
+            "urlBase" => $this->getUrlBase(),
+            "urlCss" => [],
             "urlJs" => [],
             "errors" => [],
             "notices" => [],
         ];
+        foreach ($this->cssFiles as $value) {
+            $globalArgs["urlCss"][] = $value;
+        }
         foreach ($this->jsScripts as $value) {
-            $globalArgs["urlJs"][] = "$value?" . $this->jsVersion;
+            $globalArgs["urlJs"][] = "$value?" . $this->getJsVersion();
         }
         foreach ($this->errors as $value) {
             $globalArgs["errors"][] = $value;
@@ -122,17 +174,22 @@ class Application
         foreach ($this->notices as $value) {
             $globalArgs["notices"][] = $value;
         }
-        $config = json_decode(file_get_contents(__DIR__  . "/../config/config.json"), true);
-        $translation = [
-            "basetext" =>
-                json_decode(file_get_contents(__DIR__  . $config["translation_path"] . "base.json"), true),
-        ];
+        $path = $this->getConfig()["translation_path"];
+        $translation = [ "basetext" => Yaml::parseFile("{$path}/base.yaml"), ];
         if ($translationFilename !== null) {
-            $translation["text"] =
-                json_decode(file_get_contents(__DIR__  . $config["translation_path"] . $translationFilename), true);
+            $translation["text"] = Yaml::parseFile("{$path}/{$translationFilename}");
         }
-        $args = array_merge($globalArgs, $userArgs, $translation);
+        $args = array_merge($globalArgs, $this->getRenderVars(), $userArgs, $translation);
         return $this->twig->render($templateFilename, $args);
+    }
+
+    public function addCss(string $path): self
+    {
+        $path .= "?{$this->getCssVersion()}";
+        if (!in_array($path, $this->getCssFiles())) {
+            $this->cssFiles[] = $path;
+        }
+        return $this;
     }
 
     /**
@@ -166,7 +223,7 @@ class Application
         $paths = scandir($folderPath);
         foreach ($paths as $path) {
             if (substr($path, -strlen(".js")) == ".js") {
-                $this->addJsScript("$folderPath$path");
+                $this->addJsScript("$folderPath/$path");
             }
         }
         return $this;
@@ -184,13 +241,15 @@ class Application
     }
 
     /**
-     * Add file to executed files list.
-     *
-     * @param string $filepath
+     * Add $variable to $this->renderVars.
+     * It should be array like [ variableName => value ].
      */
-    public function addFileExec(string $filepath)
+    public function addRenderVar(array $variable): self
     {
-        $this->filesExec[] = $filepath;
+        foreach ($variable as $key => $value) {
+            $this->renderVars[$key] = $value;
+        }
+        return $this;
     }
 
     /**
@@ -201,6 +260,11 @@ class Application
     public function getCssVersion(): string
     {
         return $this->cssVersion;
+    }
+
+    public function getCssFiles(): array
+    {
+        return $this->cssFiles;
     }
 
     /**
@@ -218,7 +282,7 @@ class Application
      */
     public function getJSVersion(): string
     {
-        return $this->jsVersion;
+        return $this->getConfig()["JS_VERSION"];
     }
 
     /**
@@ -232,21 +296,11 @@ class Application
     }
 
     /**
-     * Return list of executed files.
-     *
-     * @return array
-     */
-    public function getFilesExec(): array
-    {
-        return $this->filesExec;
-    }
-
-    /**
      * Zwraca tryb aplikacji, dev|prod.
      */
     public function getMode(): string
     {
-        return $this->mode;
+        return $this->config["MODE"];
     }
 
     /**
@@ -282,7 +336,7 @@ class Application
      */
     public function getUrlBase(): string
     {
-        return $this->urlBase;
+        return $this->url->getBaseUrl();
     }
 
     /**
@@ -293,9 +347,27 @@ class Application
         return $this->controller;
     }
 
-    public function getConfig(): Configurator
+    /**
+     * Zwraca konfigurację w formie tablicy.
+     */
+    public function getConfig(): ?array
     {
-        return $this->configurator;
+        return $this->config;
+    }
+
+    public function getRenderVars(): array
+    {
+        return $this->renderVars;
+    }
+
+    public function getDatabase(): ?Database
+    {
+        return $this->database;
+    }
+
+    public function isTest(): bool
+    {
+        return $this->isTest;
     }
 
     /**
@@ -305,6 +377,54 @@ class Application
     {
         $controllerName = "pietras\\Controller\\{$name}Controller";
         $this->controller = new $controllerName();
+        return $this;
+    }
+
+    public function setConfig(array $value): self
+    {
+        $this->config = $value;
+        return $this;
+    }
+
+    public function setJsVersion(string $value): self
+    {
+        $this->jsVersion = $value;
+        return $this;
+    }
+
+    public function setJsScripts(array $value): self
+    {
+        $this->jsScripts = $value;
+        return $this;
+    }
+
+    public function setCssVersion(string $value): self
+    {
+        $this->cssVersion = $value;
+        return $this;
+    }
+
+    public function setCssFiles(array $value): self
+    {
+        $this->cssFiles = $value;
+        return $this;
+    }
+
+    public function setErrors(array $value): self
+    {
+        $this->errors = $value;
+        return $this;
+    }
+
+    public function setNotices(array $value): self
+    {
+        $this->notices = $value;
+        return $this;
+    }
+
+    public function setUrl(Url $url): self
+    {
+        $this->url = $url;
         return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 /**
  * Provide class Url.
@@ -9,9 +9,9 @@ class Url
 {
 
     /**
-     * @var string $partToSkip Part of URI which is not considered.
+     * @var string $baseUrl Root.
      */
-    private $partToSkip;
+    private $baseUrl;
     /**
      * @var array List of url parameters.
      */
@@ -20,9 +20,9 @@ class Url
     /**
      * Class constructor.
      */
-    public function __construct(string $partToSkip = "/")
+    public function __construct(string $baseUrl = "/")
     {
-        $this->partToSkip = $partToSkip;
+        $this->baseUrl = $baseUrl;
         $this->refresh();
     }
 
@@ -31,8 +31,8 @@ class Url
      */
     public function refresh()
     {
-        $partToSkip = preg_replace('/\//', '\\/', $this->partToSkip);
-        $uri = preg_replace('/^' . $partToSkip . '/', '', $_SERVER["REQUEST_URI"]);
+        $baseUrl = preg_replace('/\//', '\\/', $this->baseUrl);
+        $uri = preg_replace('/^' . $baseUrl . '/', '', $_SERVER["REQUEST_URI"]);
         $this->param = explode("/", $uri);
         foreach ($this->param as $key => $value) {
             if (strpos($value, "?") !== false) {
@@ -51,5 +51,18 @@ class Url
     public function getParam(int $key): ?string
     {
         return $this->param[$key] ?? "";
+    }
+
+    /**
+     * Return full URI.
+     */
+    public function getFullUrl(): string
+    {
+        return $_SERVER["REQUEST_URI"];
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 }

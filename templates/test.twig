@@ -1,0 +1,40 @@
+Jakieś zdanie po polsku.
+Testujemy zmienne globalne:
+urlBase = {{ urlBase }}
+urlCss = [
+{% for item in urlCss %}
+    {{ item }}
+{% endfor %}
+]
+urlJs = [
+{% for item in urlJs %}
+    {{ item }}
+{% endfor %}
+]
+errors = [
+{% for item in errors %}
+    {{ item }}
+{% endfor %}
+]
+notices = [
+{% for item in notices %}
+    {{ item }}
+{% endfor %}
+]
+basetext = [
+{% for key, item in basetext %}
+    {{ key }} = [
+{% for key2, item2 in item %}
+        {{ key2 }} = {{ item2 }}
+{% endfor %}
+    ]
+{% endfor %}
+]
+text = [
+{% for key, item in text %}
+    {{ key }} = {{ item }}
+{% endfor %}
+]
+userArg1 = {{ userArg1 }}
+userArg2 = {{ userArg2 }}
+renderVar1 = {{ renderVar1 }}
