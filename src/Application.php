@@ -81,7 +81,7 @@ class Application
         $this->__initSession();
     }
 
-    private function __setErrorReporting($mode)
+    protected function __setErrorReporting($mode)
     {
         if ($mode == "dev") {
             error_reporting(E_ALL);
@@ -90,7 +90,7 @@ class Application
         }
     }
 
-    private function __initVariables()
+    protected function __initVariables()
     {
         $config = $this->getConfig();
         $this
@@ -105,7 +105,7 @@ class Application
         $this->addCss("{$this->getUrlBase()}/css/style.css");
     }
 
-    private function __initTwig()
+    protected function __initTwig()
     {
         $config = $this->getConfig();
         $debug = $this->getMode() === "dev" ? true : false;
@@ -118,7 +118,7 @@ class Application
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
     }
 
-    private function __initDatabase()
+    protected function __initDatabase()
     {
         $dbConfig = (Yaml::parseFile("config/database.yaml"));
         $host = $dbConfig["DB_HOST"];
@@ -136,7 +136,7 @@ class Application
         }
     }
 
-    private function __initSession()
+    protected function __initSession()
     {
         if (!$this->isTest()) {
             session_start();
