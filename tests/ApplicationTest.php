@@ -107,4 +107,16 @@ class ApplicationTest extends TestCase
         $this->app->addJsFolder("js");
         $this->assertEquals($array, $this->app->getJsScripts());
     }
+
+    public function testGetRoutes()
+    {
+        $array = [
+            "Controler1" => [ "url1" ],
+            "Controler2" => [
+                "url2",
+                "url3",
+            ],
+        ];
+        $this->assertEquals($array, $this->app->getRoutes());
+    }
 }

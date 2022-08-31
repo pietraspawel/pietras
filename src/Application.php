@@ -368,6 +368,14 @@ class Application
         return $this->database;
     }
 
+    public function getRoutes(): array
+    {
+        if (!isset($this->routes)) {
+            $this->routes = Yaml::parseFile("config/routes.yaml");
+        }
+        return $this->routes;
+    }
+
     public function isTest(): bool
     {
         return $this->isTest;
