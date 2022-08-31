@@ -9,7 +9,7 @@ abstract class Repository
 {
     protected $database;
 
-    public function __construct(\pietras\Database $database)
+    public function __construct(Database $database)
     {
         $this->database = $database;
     }
