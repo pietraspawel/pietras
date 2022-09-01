@@ -439,4 +439,14 @@ class Application
         $this->url = $url;
         return $this;
     }
+
+    /**
+     * Zmienia kontroler i uruchamia go.
+     */
+    public function runController(string $name): self
+    {
+        $this->setController($name);
+        $this->getController()->handle();
+        return $this;
+    }
 }
