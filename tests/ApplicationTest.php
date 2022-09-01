@@ -119,4 +119,11 @@ class ApplicationTest extends TestCase
         ];
         $this->assertEquals($array, $this->app->getRoutes());
     }
+
+    public function testSetController()
+    {
+        $controller = new \pietras\Controller\Test($this->app);
+        $this->app->setController("test");
+        $this->assertEquals($controller, $this->app->getController());
+    }
 }

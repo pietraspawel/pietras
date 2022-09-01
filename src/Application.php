@@ -345,7 +345,7 @@ class Application
     /**
      * Return controller object.
      */
-    public function getController(): ?Controller\Controller
+    public function getController(): ?\pietras\basic\Controller
     {
         return $this->controller;
     }
@@ -386,8 +386,9 @@ class Application
      */
     public function setController(string $name): self
     {
-        $controllerName = "pietras\\Controller\\{$name}Controller";
-        $this->controller = new $controllerName();
+        $name = ucfirst($name);
+        $controllerName = "pietras\\Controller\\{$name}";
+        $this->controller = new $controllerName($this);
         return $this;
     }
 
