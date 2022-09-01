@@ -12,7 +12,7 @@ abstract class Controller
      */
     protected $application;
 
-    public function __construct(\pietras\Application $application)
+    public function __construct(Application $application)
     {
         $this->application = $application;
     }
