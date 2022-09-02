@@ -112,8 +112,8 @@ class ApplicationTest extends TestCase
     public function testGetRoutes()
     {
         $array = [
-            "Controler1" => [ "url1" ],
-            "Controler2" => [
+            "Controller1" => [ "url1" ],
+            "Controller2" => [
                 "url2",
                 "url3",
             ],
