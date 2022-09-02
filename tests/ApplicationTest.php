@@ -23,6 +23,7 @@ class ApplicationTest extends TestCase
                 "templates_path" => "templates",
                 "cache_path" => "cache",
                 "translation_path" => "translation/pl",
+                "routes_path" => "config/routes.yaml",
             ];
     }
 
