@@ -11,6 +11,7 @@ class ApplicationTest extends TestCase
 
     protected function setUp(): void
     {
+        $_SERVER["HTTP_HOST"] = "pietraspawel.pl";
         $_SERVER["REQUEST_URI"] = "http://pietraspawel.pl/testowisko/param1/param2/param3?aaa=1&bbb=dupa";
 
         $this->app = new \pietras\basic\Application();

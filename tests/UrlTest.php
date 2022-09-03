@@ -10,7 +10,8 @@ class UrlTest extends TestCase
 
     protected function setUp(): void
     {
-        $_SERVER["REQUEST_URI"] = "http://pietraspawel.pl/testowo/param1/param2/param3?aaa=1&bbb=dupa";
+        $_SERVER["HTTP_HOST"] = "pietraspawel.pl";
+        $_SERVER["REQUEST_URI"] = "/testowo/param1/param2/param3?aaa=1&bbb=dupa";
         $this->url = new \pietras\basic\Url("http://pietraspawel.pl/testowo");
     }
 
