@@ -31,8 +31,10 @@ class Url
      */
     public function refresh()
     {
-        $baseUrl = preg_replace('/\//', '\\/', $this->baseUrl);
-        $uri = preg_replace('/^' . $baseUrl . '/', '', $_SERVER["REQUEST_URI"]);
+        $baseUrl = str_replace("\/", "/", $this->baseUrl);
+        $baseUrl = str_replace("http://", "", $baseUrl);
+        $baseUrl = str_replace("https://", "", $baseUrl);
+        $uri = str_replace($baseUrl, "", $_SERVER["HTTP_HOST"] .  $_SERVER["REQUEST_URI"]);
         $this->param = explode("/", $uri);
         foreach ($this->param as $key => $value) {
             if (strpos($value, "?") !== false) {
