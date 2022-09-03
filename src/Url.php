@@ -60,7 +60,11 @@ class Url
      */
     public function getFullUrl(): string
     {
-        return $_SERVER["REQUEST_URI"];
+        $toCut = str_replace("\/", "/", $this->baseUrl);
+        $toCut = str_replace("http://", "", $toCut);
+        $toCut = str_replace("https://", "", $toCut);
+        $rest = str_replace($toCut, "", $_SERVER["HTTP_HOST"] .  $_SERVER["REQUEST_URI"]);
+        return "{$this->baseUrl}{$rest}";
     }
 
     public function getBaseUrl(): string
