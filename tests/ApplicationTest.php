@@ -12,7 +12,7 @@ class ApplicationTest extends TestCase
     protected function setUp(): void
     {
         $_SERVER["HTTP_HOST"] = "pietraspawel.pl";
-        $_SERVER["REQUEST_URI"] = "http://pietraspawel.pl/testowisko/param1/param2/param3?aaa=1&bbb=dupa";
+        $_SERVER["REQUEST_URI"] = "/testowisko/param1/param2/param3?aaa=1&bbb=dupa";
 
         $this->app = new \pietras\basic\Application();
         $this->config =
@@ -127,5 +127,12 @@ class ApplicationTest extends TestCase
         $controller = new \pietras\Controller\Test($this->app);
         $this->app->setController("test");
         $this->assertEquals($controller, $this->app->getController());
+    }
+
+    public function testGetUrlParam()
+    {
+        $this->assertEquals("param1", $this->app->getUrlParam(1));
+        $this->assertEquals("param2", $this->app->getUrlParam(2));
+        $this->assertEquals("param3", $this->app->getUrlParam(3));
     }
 }

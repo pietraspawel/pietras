@@ -329,7 +329,7 @@ class Application
      */
     public function getUrlParam(int $index): ?string
     {
-        return $this->url->getParam(--$index);
+        return $this->url->getParam($index);
     }
 
     /**
