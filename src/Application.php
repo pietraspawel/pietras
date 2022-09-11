@@ -66,6 +66,10 @@ class Application
      * Tells if phpunit test is running.
      */
     private $isTest;
+    /**
+     * Store information about user.
+     */
+    private $user;
 
     public function __construct()
     {
@@ -376,6 +380,11 @@ class Application
         return $this->routes;
     }
 
+    public function getUser(): ?array
+    {
+        return $this->user;
+    }
+
     public function isTest(): bool
     {
         return $this->isTest;
@@ -437,6 +446,12 @@ class Application
     public function setUrl(Url $url): self
     {
         $this->url = $url;
+        return $this;
+    }
+
+    public function setUser(?array $value): self
+    {
+        $this->user = $value;
         return $this;
     }
 
