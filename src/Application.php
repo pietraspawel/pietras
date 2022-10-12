@@ -380,7 +380,7 @@ class Application
         return $this->routes;
     }
 
-    public function getUser(): ?array
+    public function getUser()
     {
         return $this->user;
     }
@@ -449,7 +449,7 @@ class Application
         return $this;
     }
 
-    public function setUser(?array $value): self
+    public function setUser($value): self
     {
         $this->user = $value;
         return $this;
