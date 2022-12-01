@@ -106,7 +106,6 @@ class Application
             ->setNotices([])
             ->setUrl(new Url($config["base_url"]));
         $this->renderVars = [];
-        $this->addCss("{$this->getUrlBase()}/css/style.css");
     }
 
     protected function __initTwig()

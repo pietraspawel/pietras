@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals("0.0.0", $this->app->getJsVersion());
         $this->assertEquals([], $this->app->getJsScripts());
         $this->assertEquals("0.0.0", $this->app->getCssVersion());
-        $this->assertEquals(["http://pietraspawel.pl/testowisko/css/style.css?0.0.0"], $this->app->getCssFiles());
+        $this->assertEquals([], $this->app->getCssFiles());
         $this->assertEquals([], $this->app->getErrors());
         $this->assertEquals([], $this->app->getNotices());
         $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
@@ -78,7 +78,6 @@ class ApplicationTest extends TestCase
     public function testAddCss()
     {
         $array = [
-            "http://pietraspawel.pl/testowisko/css/style.css?0.0.0",
             "http://pietraspawel.pl/testowisko/css/inny_plik.css?0.0.0",
         ];
         $this->app->addCss("http://pietraspawel.pl/testowisko/css/inny_plik.css");
