@@ -74,6 +74,10 @@ class Application
      * Ścieżka do folderu z tłumaczeniami.
      */
     private $pathTranslation;
+    /**
+     * Pieprz do hasła.
+     */
+    private $pepper;
 
     public function __construct()
     {
@@ -397,6 +401,11 @@ class Application
         return $this->pathTranslation;
     }
 
+    public function getPepper(): string
+    {
+        return $this->pepper;
+    }
+
     public function isTest(): bool
     {
         return $this->isTest;
@@ -470,6 +479,12 @@ class Application
     private function setPathTranslation(string $value): self
     {
         $this->pathTranslation = $value;
+        return $this;
+    }
+
+    private function setPepper(string $pepper): self
+    {
+        $this->pepper = $pepper;
         return $this;
     }
 
