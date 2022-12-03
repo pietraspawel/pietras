@@ -108,6 +108,7 @@ class Application
             ->setCssFiles([])
             ->setErrors([])
             ->setNotices([])
+            ->setPepper($config["passwordPepper"])
             ->setUrl(new Url($config["base_url"]));
         $this->renderVars = [];
     }

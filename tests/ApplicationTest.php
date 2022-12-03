@@ -25,6 +25,7 @@ class ApplicationTest extends TestCase
                 "cache_path" => "cache",
                 "translation_path" => "translation/pl",
                 "routes_path" => "config/routes.yaml",
+                "passwordPepper" => "pepper",
             ];
     }
 
@@ -49,6 +50,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getNotices());
         $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getUrlBase());
         $this->assertEquals([], $this->app->getRenderVars());
+        $this->assertEquals("pepper", $this->app->getPepper());
     }
 
     public function testRenderVars()
