@@ -71,10 +71,6 @@ class Application
      */
     private $user;
     /**
-     * Ścieżka do folderu z tłumaczeniami.
-     */
-    private $pathTranslation;
-    /**
      * Pieprz do hasła.
      */
     private $pepper;
@@ -396,11 +392,6 @@ class Application
         return $this->user;
     }
 
-    public function getPathTranslation(): string
-    {
-        return $this->pathTranslation;
-    }
-
     public function getPepper(): string
     {
         return $this->pepper;
@@ -473,12 +464,6 @@ class Application
     public function setUser($value): self
     {
         $this->user = $value;
-        return $this;
-    }
-
-    private function setPathTranslation(string $value): self
-    {
-        $this->pathTranslation = $value;
         return $this;
     }
 
