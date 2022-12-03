@@ -167,7 +167,11 @@ class Application
             "urlJs" => [],
             "errors" => [],
             "notices" => [],
+            "user" => $this->getUser(),
         ];
+        if (!$this->isTest) {
+            $globalArgs["session"] = $_SESSION;
+        }
         foreach ($this->cssFiles as $value) {
             $globalArgs["urlCss"][] = $value;
         }
