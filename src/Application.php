@@ -70,6 +70,10 @@ class Application
      * Store information about user.
      */
     private $user;
+    /**
+     * Ścieżka do folderu z tłumaczeniami.
+     */
+    private $pathTranslation;
 
     public function __construct()
     {
@@ -388,6 +392,11 @@ class Application
         return $this->user;
     }
 
+    public function getPathTranslation(): string
+    {
+        return $this->pathTranslation;
+    }
+
     public function isTest(): bool
     {
         return $this->isTest;
@@ -455,6 +464,12 @@ class Application
     public function setUser($value): self
     {
         $this->user = $value;
+        return $this;
+    }
+
+    private function setPathTranslation(string $value): self
+    {
+        $this->pathTranslation = $value;
         return $this;
     }
 
