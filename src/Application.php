@@ -85,7 +85,9 @@ class Application
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
         $this->__initTwig();
-        $this->__initDatabase();
+        if (file_exists("config/database.yaml")) {
+            $this->__initDatabase();
+        }
         $this->__initSession();
     }
 
