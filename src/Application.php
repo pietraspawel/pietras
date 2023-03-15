@@ -75,13 +75,17 @@ class Application
      */
     private $pepper;
 
-    public function __construct()
+    /**
+     * $configFilepath
+     *  ścieżka do pliku konfiguracji
+    */
+    public function __construct(string $configFilepath = "../config/application.yaml")
     {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
-        $this->setConfig(Yaml::parseFile("config/application.yaml"));
+        $this->setConfig(Yaml::parseFile($configFilepath));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
         $this->__initTwig();

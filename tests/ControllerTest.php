@@ -10,7 +10,7 @@ class ControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->application = new Application();
+        $this->application = new Application("config/application.yaml");
     }
 
     public function testFindControllerByUrl()

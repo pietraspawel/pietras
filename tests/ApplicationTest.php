@@ -14,7 +14,7 @@ class ApplicationTest extends TestCase
         $_SERVER["HTTP_HOST"] = "pietraspawel.pl";
         $_SERVER["REQUEST_URI"] = "/testowisko/param1/param2/param3?aaa=1&bbb=dupa";
 
-        $this->app = new \pietras\basic\Application();
+        $this->app = new \pietras\basic\Application("config/application.yaml");
         $this->config =
             [
                 "MODE" => "dev",
