@@ -475,6 +475,12 @@ class Application
         $this->pepper = $pepper;
         return $this;
     }
+    
+    public function setTest(bool $value): self
+    {
+        $this->isTest = $value;
+        return $this;
+    }
 
     /**
      * Zmienia kontroler i uruchamia go.
