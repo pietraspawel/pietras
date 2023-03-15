@@ -79,7 +79,10 @@ class Application
      * $configFilepath
      *  ścieżka do pliku konfiguracji
     */
-    public function __construct(string $configFilepath = "../config/application.yaml")
+    public function __construct(
+        string $configFilepath = "../config/application.yaml",
+        string $dbConfigFilepath = "../config/database.yaml"
+    )
     {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
@@ -89,8 +92,8 @@ class Application
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
         $this->__initTwig();
-        if (file_exists("config/database.yaml")) {
-            $this->__initDatabase();
+        if (file_exists($dbConfigFilepath)) {
+            $this->__initDatabase($dbConfigFilepath);
         }
         $this->__initSession();
     }
@@ -132,9 +135,9 @@ class Application
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
     }
 
-    protected function __initDatabase()
+    protected function __initDatabase(string $dbConfigFilepath)
     {
-        $dbConfig = (Yaml::parseFile("config/database.yaml"));
+        $dbConfig = (Yaml::parseFile($dbConfigFilepath));
         $host = $dbConfig["DB_HOST"];
         $user = $dbConfig["DB_USER"];
         $pass = $dbConfig["DB_PASS"];
