@@ -1,5 +1,6 @@
 *.sublime-project
 *.sublime-workspace
-vendor/
 /.phpunit.result.cache
+vendor/
 cache
+ideas.txt
