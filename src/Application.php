@@ -342,6 +342,11 @@ class Application
         return $this->twig;
     }
 
+    public function getUrl(): Url
+    {
+        return $this->url;
+    }
+
     /**
      * Zwraca n-ty parametr URL lub null, gdy nieokreślony.
      * Index liczony od 1.
