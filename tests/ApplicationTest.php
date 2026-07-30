@@ -132,8 +132,8 @@ class ApplicationTest extends TestCase
 
     public function testGetUrlParam()
     {
-        $this->assertEquals("param1", $this->app->getUrlParam(1));
-        $this->assertEquals("param2", $this->app->getUrlParam(2));
-        $this->assertEquals("param3", $this->app->getUrlParam(3));
+        $this->assertEquals("param1", $this->app->getUrlParam(0));
+        $this->assertEquals("param2", $this->app->getUrlParam(1));
+        $this->assertEquals("param3", $this->app->getUrlParam(2));
     }
 }
