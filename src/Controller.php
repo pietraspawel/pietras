@@ -9,28 +9,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 abstract class Controller
 {
-    /**
-     * @var Application $application Przechowuje obiekt aplikacji.
-     */
-    protected $application;
+    protected application $application;
 
     public function __construct(Application $application)
     {
         $this->application = $application;
-    }
-
-    public static function findControllerByUrl(Application $application, string $url): ?string
-    {
-        $path = $application->getConfig()["routes_path"];
-        $routes = Yaml::parseFile($path);
-        foreach ($routes as $controller => $urlsArray) {
-            foreach ($urlsArray as $value) {
-                if ($value == $url) {
-                    return $controller;
-                }
-            }
-        }
-        return null;
     }
 
     /**
