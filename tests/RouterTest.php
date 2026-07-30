@@ -20,32 +20,47 @@ class RouterTest extends TestCase
         $this->router = new Router($routes);
     }
 
+    public function testFindRouteAndController()
+    {
+        $this->assertSame("Home", $this->router->findRoute("/")->getController());
+        $this->assertSame("Ajax", $this->router->findRoute("/ajax")->getController());
+        $this->assertSame("Canonical", $this->router->findRoute("/canonical")->getController());
+        $this->assertSame("Canonical", $this->router->findRoute("/canonical/123")->getController());
+        $this->assertSame("HoneyPots", $this->router->findRoute("/honey-pots")->getController());
+        $this->assertSame("HoneyPots", $this->router->findRoute("/honey-pots/register")->getController());
+        $this->assertNull($this->router->findRoute("/honey-pots/123"));
+        $this->assertNull($this->router->findRoute("/nie-ma-takiej"));
+    }
+
+    public function testFindRouteAndParams()
+    {
+        $this->assertSame([], $this->router->findRoute("/")->getParams());
+        $this->assertSame([], $this->router->findRoute("/ajax")->getParams());
+        $this->assertSame([], $this->router->findRoute("/canonical")->getParams());
+        $this->assertSame([ "id" => "123" ], $this->router->findRoute("/canonical/123")->getParams());
+        $this->assertSame([], $this->router->findRoute("/honey-pots")->getParams());
+        $this->assertSame([], $this->router->findRoute("/honey-pots/register")->getParams());
+        $this->assertNull($this->router->findRoute("/honey-pots/123"));
+    }
+
+    public function testFindRouteAndParam()
+    {
+        $this->assertNull($this->router->findRoute("/")->getParam("id"));
+        $this->assertSame("123", $this->router->findRoute("/canonical/123")->getParam("id"));
+    }
+
     public function testFindController()
     {
-        $this->assertEquals("Home", $this->router->findRoute("/")->getController());
-        $this->assertEquals("Ajax", $this->router->findRoute("/ajax")->getController());
-        $this->assertEquals("Canonical", $this->router->findRoute("/canonical")->getController());
-        $this->assertEquals("Canonical", $this->router->findRoute("/canonical/123")->getController());
-        $this->assertEquals("HoneyPots", $this->router->findRoute("/honey-pots")->getController());
-        $this->assertEquals("HoneyPots", $this->router->findRoute("/honey-pots/register")->getController());
-        $this->assertEquals(null, $this->router->findRoute("/honey-pots/123"));
-        $this->assertEquals(null, $this->router->findRoute("/nie-ma-takiej"));
-    }
-
-    public function testFindParams()
-    {
-        $this->assertEquals([], $this->router->findRoute("/")->getParams());
-        $this->assertEquals([], $this->router->findRoute("/ajax")->getParams());
-        $this->assertEquals([], $this->router->findRoute("/canonical")->getParams());
-        $this->assertEquals([ "id" => 123 ], $this->router->findRoute("/canonical/123")->getParams());
-        $this->assertEquals([], $this->router->findRoute("/honey-pots")->getParams());
-        $this->assertEquals([], $this->router->findRoute("/honey-pots/register")->getParams());
-        $this->assertEquals(null, $this->router->findRoute("/honey-pots/123"));
-    }
-
-    public function testFindParam()
-    {
-        $this->assertEquals(null, $this->router->findRoute("/")->getParam("id"));
-        $this->assertEquals(123, $this->router->findRoute("/canonical/123")->getParam("id"));
+        $this->assertSame("Home", $this->router->findController("/"));
+        $this->assertSame("Ajax", $this->router->findController("/ajax"));
+        $this->assertSame("Ajax", $this->router->findController("/ajax/"));
+        $this->assertSame("Canonical", $this->router->findController("/canonical"));
+        $this->assertSame("Canonical", $this->router->findController("/canonical/"));
+        $this->assertSame("Canonical", $this->router->findController("/canonical/123"));
+        $this->assertSame("HoneyPots", $this->router->findController("/honey-pots"));
+        $this->assertSame("HoneyPots", $this->router->findController("/honey-pots/register"));
+        $this->assertNull($this->router->findController("/honey-pots/123"));
+        $this->assertNull($this->router->findController("/nie-ma-takiej"));
+        $this->assertNull($this->router->findController("/user/123/edit"));
     }
 }

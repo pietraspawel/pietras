@@ -9,18 +9,18 @@ use pietras\basic\model\Route;
  */
 class Router
 {
-    private array $routes;
+    private array $routesRules;
 
-    public function __construct(array $routes)
+    public function __construct(array $routesRules)
     {
-        $this->routes = $routes;
+        $this->routesRules = $routesRules;
     }
 
     public function findRoute(string $path): ?Route
     {
-        foreach ($this->routes as $controller => $paths) {
-            foreach ($paths as $route) {
-                $params = $this->matchRoute($route, $path);
+        foreach ($this->routesRules as $controller => $paths) {
+            foreach ($paths as $pattern) {
+                $params = $this->matchRoute($pattern, $path);
                 if ($params !== null) {
                     return new Route($controller, $params);
                 }
@@ -30,21 +30,34 @@ class Router
         return null;
     }
 
-    // Porównuje routę z konfiguracji z url path.
+    /**
+     * Skrót do findRoute($path)->getController().
+     * Jeśli nie ma kontrolera przypisanego do ścieżki to zwraca null.
+     */
+    public function findController(string $path): ?string
+    {
+        $route = $this->findRoute($path);
+        if ($route === null) {
+            return null;
+        }
+        return $route->getController();
+    }
+
+    // Porównuje wzorzec z konfiguracji z aktualną ścieżką.
     // Zwraca null jeśli nie pasuje.
     // Jeśli pasuje zwraca tablicę z parametrami (lub pustą, jeśli nie ma parametrów).
-    private static function matchRoute(string $route, string $currentPath): ?array
+    private function matchRoute(string $pattern, string $currentPath): ?array
     {
-        $routeParts = explode('/', trim($route, '/'));
+        $patternParts = explode('/', trim($pattern, '/'));
         $pathParts = explode('/', trim($currentPath, '/'));
 
-        if (count($routeParts) !== count($pathParts)) {
+        if (count($patternParts) !== count($pathParts)) {
             return null;
         }
 
         $params = [];
 
-        foreach ($routeParts as $key => $part) {
+        foreach ($patternParts as $key => $part) {
             if (preg_match('/^\{(.+)\}$/', $part, $matches)) {
                 $params[$matches[1]] = $pathParts[$key];
                 continue;
