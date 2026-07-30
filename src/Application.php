@@ -176,7 +176,7 @@ class Application
     public function render(string $templateFilename, string $translationFilename = null, ?array $userArgs = []): string
     {
         $globalArgs = [
-            "urlBase" => $this->getUrlBase(),
+            "urlBase" => $this->getAppUrl(),
             "urlCss" => [],
             "urlJs" => [],
             "errors" => [],
@@ -363,9 +363,9 @@ class Application
      *
      * @return string
      */
-    public function getUrlBase(): string
+    public function getAppUrl(): string
     {
-        return $this->url->getBaseUrl();
+        return $this->url->getAppUrl();
     }
 
     /**
