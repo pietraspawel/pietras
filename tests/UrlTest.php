@@ -28,72 +28,72 @@ class UrlTest extends TestCase
 
     public function testAppUrl()
     {
-        $this->assertEquals("http://pietraspawel.pl/testowo", $this->url->getAppUrl());
-        $this->assertEquals("http://pietraspawel.pl", $this->url2->getAppUrl());
-        $this->assertEquals("http://pietraspawel.pl/testowo", $this->url3->getAppUrl());
-        $this->assertEquals("http://pietraspawel.pl/project", $this->url4->getAppUrl());
+        $this->assertSame("http://pietraspawel.pl/testowo", $this->url->getAppUrl());
+        $this->assertSame("http://pietraspawel.pl", $this->url2->getAppUrl());
+        $this->assertSame("http://pietraspawel.pl/testowo", $this->url3->getAppUrl());
+        $this->assertSame("http://pietraspawel.pl/project", $this->url4->getAppUrl());
     }
 
     public function testBaseUrl()
     {
-        $this->assertEquals("/testowo", $this->url->getBaseUrl());
-        $this->assertEquals("", $this->url2->getBaseUrl());
-        $this->assertEquals("/testowo", $this->url3->getBaseUrl());
-        $this->assertEquals("/project", $this->url4->getBaseUrl());
+        $this->assertSame("/testowo", $this->url->getBaseUrl());
+        $this->assertSame("", $this->url2->getBaseUrl());
+        $this->assertSame("/testowo", $this->url3->getBaseUrl());
+        $this->assertSame("/project", $this->url4->getBaseUrl());
     }
 
     public function testFullUrl()
     {
-        $this->assertEquals(
+        $this->assertSame(
             "http://pietraspawel.pl/testowo/param1/param2/param3?aaa=1&bbb=dupa",
             $this->url->getFullUrl()
         );
-        $this->assertEquals(
+        $this->assertSame(
             "http://pietraspawel.pl/param1/param2/param3?aaa=1&bbb=dupa",
             $this->url2->getFullUrl()
         );
-        $this->assertEquals("http://pietraspawel.pl/testowo", $this->url3->getFullUrl());
-        $this->assertEquals("http://pietraspawel.pl/project/project-old/test", $this->url4->getFullUrl());
+        $this->assertSame("http://pietraspawel.pl/testowo", $this->url3->getFullUrl());
+        $this->assertSame("http://pietraspawel.pl/project/project-old/test", $this->url4->getFullUrl());
     }
 
     public function testUri()
     {
-        $this->assertEquals("/param1/param2/param3?aaa=1&bbb=dupa", $this->url->getUri());
-        $this->assertEquals("/param1/param2/param3?aaa=1&bbb=dupa", $this->url2->getUri());
-        $this->assertEquals("/", $this->url3->getUri());
-        $this->assertEquals("/project-old/test", $this->url4->getUri());
+        $this->assertSame("/param1/param2/param3?aaa=1&bbb=dupa", $this->url->getUri());
+        $this->assertSame("/param1/param2/param3?aaa=1&bbb=dupa", $this->url2->getUri());
+        $this->assertSame("/", $this->url3->getUri());
+        $this->assertSame("/project-old/test", $this->url4->getUri());
     }
 
     public function testPath()
     {
-        $this->assertEquals("/param1/param2/param3", $this->url->getPath());
-        $this->assertEquals("/param1/param2/param3", $this->url2->getPath());
-        $this->assertEquals("/", $this->url3->getPath());
-        $this->assertEquals("/project-old/test", $this->url4->getPath());
+        $this->assertSame("/param1/param2/param3", $this->url->getPath());
+        $this->assertSame("/param1/param2/param3", $this->url2->getPath());
+        $this->assertSame("/", $this->url3->getPath());
+        $this->assertSame("/project-old/test", $this->url4->getPath());
     }
 
     public function testParams()
     {
         $array = [ "param1", "param2", "param3" ];
-        $this->assertEquals($array, $this->url->getParams());
-        $this->assertEquals("param1", $this->url->getParam(0));
-        $this->assertEquals("param2", $this->url->getParam(1));
-        $this->assertEquals("param3", $this->url->getParam(2));
-        $this->assertEquals(3, $this->url->countParams());
-        $this->assertEquals($array, $this->url2->getParams());
-        $this->assertEquals("param1", $this->url2->getParam(0));
-        $this->assertEquals("param2", $this->url2->getParam(1));
-        $this->assertEquals("param3", $this->url2->getParam(2));
-        $this->assertEquals(3, $this->url2->countParams());
-        $this->assertEquals([], $this->url3->getParams());
-        $this->assertEquals(null, $this->url3->getParam(0));
-        $this->assertEquals(null, $this->url3->getParam(1));
-        $this->assertEquals(null, $this->url3->getParam(2));
-        $this->assertEquals(0, $this->url3->countParams());
-        $this->assertEquals(["project-old", "test"], $this->url4->getParams());
-        $this->assertEquals("project-old", $this->url4->getParam(0));
-        $this->assertEquals("test", $this->url4->getParam(1));
-        $this->assertEquals(null, $this->url4->getParam(2));
-        $this->assertEquals(2, $this->url4->countParams());
+        $this->assertSame($array, $this->url->getParams());
+        $this->assertSame("param1", $this->url->getParam(0));
+        $this->assertSame("param2", $this->url->getParam(1));
+        $this->assertSame("param3", $this->url->getParam(2));
+        $this->assertSame(3, $this->url->countParams());
+        $this->assertSame($array, $this->url2->getParams());
+        $this->assertSame("param1", $this->url2->getParam(0));
+        $this->assertSame("param2", $this->url2->getParam(1));
+        $this->assertSame("param3", $this->url2->getParam(2));
+        $this->assertSame(3, $this->url2->countParams());
+        $this->assertSame([], $this->url3->getParams());
+        $this->assertSame(null, $this->url3->getParam(0));
+        $this->assertSame(null, $this->url3->getParam(1));
+        $this->assertSame(null, $this->url3->getParam(2));
+        $this->assertSame(0, $this->url3->countParams());
+        $this->assertSame(["project-old", "test"], $this->url4->getParams());
+        $this->assertSame("project-old", $this->url4->getParam(0));
+        $this->assertSame("test", $this->url4->getParam(1));
+        $this->assertSame(null, $this->url4->getParam(2));
+        $this->assertSame(2, $this->url4->countParams());
     }
 }
