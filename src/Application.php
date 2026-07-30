@@ -118,7 +118,7 @@ class Application
             ->setErrors([])
             ->setNotices([])
             ->setPepper($config["passwordPepper"])
-            ->setUrl(new Url($config["base_url"]));
+            ->setUrl(new Url($config["app_url"]));
         $this->renderVars = [];
     }
 
@@ -176,7 +176,7 @@ class Application
     public function render(string $templateFilename, string $translationFilename = null, ?array $userArgs = []): string
     {
         $globalArgs = [
-            "urlBase" => $this->getAppUrl(),
+            "appUrl" => $this->getAppUrl(),
             "urlCss" => [],
             "urlJs" => [],
             "errors" => [],

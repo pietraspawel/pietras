@@ -20,7 +20,7 @@ class ApplicationTest extends TestCase
                 "MODE" => "dev",
                 "JS_VERSION" => "0.0.0",
                 "CSS_VERSION" => "0.0.0",
-                "base_url" => "http://pietraspawel.pl/testowisko",
+                "app_url" => "http://pietraspawel.pl/testowisko",
                 "templates_path" => "templates",
                 "cache_path" => "cache",
                 "translation_path" => "translation/pl",
