@@ -82,8 +82,7 @@ class Application
     public function __construct(
         string $configFilepath = "../config/application.yaml",
         string $dbConfigFilepath = "../config/database.yaml"
-    )
-    {
+    ) {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
@@ -487,7 +486,7 @@ class Application
         $this->pepper = $pepper;
         return $this;
     }
-    
+
     public function setTest(bool $value): self
     {
         $this->isTest = $value;
