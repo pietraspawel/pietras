@@ -10,70 +10,65 @@ use Symfony\Component\Yaml\Yaml;
 class Application
 {
     /**
-     * @var string $mode Must be "dev" or "prod".
+     * Must be "dev" or "prod".
      */
-    private $mode;
+    private string $mode;
     /**
-     * @var string $jsVersion Actual version of Java Script files.
+     * Actual version of Java Script files.
      */
-    private $jsVersion;
+    private string $jsVersion;
     /**
-     * @var array $jsScripts Array of filepaths to js scripts to run on the page.
+     * Array of filepaths to js scripts to run on the page.
      */
-    private $jsScripts;
+    private array $jsScripts;
     /**
-     * @var string $cssVersion Actual version of CSS files.
+     * Actual version of CSS files.
      */
-    private $cssVersion;
+    private string $cssVersion;
     /**
-     * @var array $cssFiles Array of filepaths to css files.
+     * Array of filepaths to css files.
      */
-    private $cssFiles;
+    private array $cssFiles;
     /**
-     * @var array List of errors;
+     * List of errors;
      */
-    private $errors;
+    private array $errors;
     /**
-     * @var array List of notices.
+     * List of notices.
      */
-    private $notices;
+    private array $notices;
     /**
-     * @var Url $url Actual url.
+     * Actual url.
      */
-    private $url;
+    private Url $url;
     /**
-     * @var Controller $contoller Controller object.
+     * Controller object.
      */
-    private $controller;
+    private Controller $controller;
     /**
-     * @var array $config Keeps configuration.
+     * Keeps configuration.
      */
-    private $config;
+    private array $config;
     /**
-     * @var \Twig\Environment $twig Obiekt Twiga.
+     * Obiekt Twiga.
      */
-    private $twig;
+    private \Twig\Environment $twig;
     /**
      * Global variables, which are sended to every twig template.
-     * @var array $globalRenderVars
      */
-    private $renderVars;
+    private array $renderVars;
     /**
-     * @var Database $database Database handler.
+     * Database handler.
      */
-    private $database;
+    private Database $database;
     /**
      * Tells if phpunit test is running.
      */
-    private $isTest;
-    /**
-     * Store information about user.
-     */
-    private $user;
+    private bool $isTest;
     /**
      * Pieprz do hasła.
      */
-    private $pepper;
+    private string $pepper;
 
     /**
      * $configFilepath
@@ -180,7 +175,6 @@ class Application
             "urlJs" => [],
             "errors" => [],
             "notices" => [],
-            "user" => $this->getUser(),
         ];
         if (!$this->isTest) {
             $globalArgs["session"] = $_SESSION;
@@ -401,11 +395,6 @@ class Application
         return $this->routes;
     }
 
-    public function getUser()
-    {
-        return $this->user;
-    }
-
     public function getPepper(): string
     {
         return $this->pepper;
@@ -472,12 +461,6 @@ class Application
     public function setUrl(Url $url): self
     {
         $this->url = $url;
-        return $this;
-    }
-
-    public function setUser($value): self
-    {
-        $this->user = $value;
         return $this;
     }
 
