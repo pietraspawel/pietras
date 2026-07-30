@@ -1,2 +1,5 @@
+2026-07-30
+    uproszczono src/Controller
+    dodano src/Router
 2026-07-29
     zmieniono src/Url
