@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    private $config;
+    private Config $config;
 
     protected function setUp(): void
     {
@@ -21,7 +21,7 @@ class ConfigTest extends TestCase
         $this->config = new Config($data);
     }
 
-    public function testContructor()
+    public function testConstructor()
     {
         $this->assertInstanceOf(Config::class, $this->config);
         $this->assertSame("value1", $this->config->get("string"));

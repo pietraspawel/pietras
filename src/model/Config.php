@@ -4,11 +4,14 @@ namespace pietras\basic\model;
 
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Stores application configuration.
+ */
 class Config
 {
     private array $data;
 
-    public function __construct(array $data = [])
+    public function __construct(array $data)
     {
         $this->data = $data;
     }
