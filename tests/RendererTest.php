@@ -27,9 +27,14 @@ class RendererTest extends TestCase
     {
         $string = file_get_contents("templates/output.htm");
         $this->renderer->addGlobalVar("globalVar1", "gv1");
+        $this->renderer->addGlobalVars([
+            "globalVar2" => "gv2",
+            "title" => "Tytuł pierowtny",
+        ]);
         $userArgs = [
             "userArg1" => "userArg1",
             "userArg2" => 123,
+            "title" => "Tytuł zmieniony",
         ];
 
         $this->assertSame($string, $this->renderer->render("test.twig", $userArgs, "test.yaml"));
