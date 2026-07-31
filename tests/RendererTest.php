@@ -12,7 +12,7 @@ class RendererTest extends TestCase
     {
         $loader = new \Twig\Loader\FilesystemLoader("templates");
         $twig = new \Twig\Environment($loader, [
-            "cache" => "cache",
+            "cache" => false,
             "debug" => true,
             "strict_variables" => true,
         ]);

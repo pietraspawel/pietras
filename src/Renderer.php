@@ -49,12 +49,12 @@ class Renderer
 
     private function getTranslations(?string $translationFilename): array
     {
-        $translation = [];
-        if ($this->translationPath !== null) {
-            $translation = [ "basetext" => Yaml::parseFile("{$this->translationPath}/base.yaml"), ];
-            if ($translationFilename !== null) {
-                $translation["text"] = Yaml::parseFile("{$this->translationPath}/{$translationFilename}");
-            }
+        if ($this->translationPath === null) {
+            return [];
+        }
+        $translation = [ "basetext" => Yaml::parseFile("{$this->translationPath}/base.yaml"), ];
+        if ($translationFilename !== null) {
+            $translation["text"] = Yaml::parseFile("{$this->translationPath}/{$translationFilename}");
         }
 
         return $translation;
