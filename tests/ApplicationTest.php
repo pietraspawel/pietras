@@ -29,6 +29,11 @@ class ApplicationTest extends TestCase
             ];
     }
 
+    public function testContructor()
+    {
+        $this->assertInstanceOf(Router::class, $this->app->getRouter());
+    }
+
     public function testConfig()
     {
         $this->assertEquals($this->config, $this->app->getConfig());

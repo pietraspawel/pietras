@@ -65,6 +65,7 @@ class Application
      * Pieprz do hasła.
      */
     private string $pepper;
+    private Router $router;
 
     /**
      * $configFilepath
@@ -86,6 +87,8 @@ class Application
             $this->__initDatabase($dbConfigFilepath);
         }
         $this->__initSession();
+
+        $this->router = new Router(Yaml::parseFile($this->config['routes_path']));
     }
 
     protected function __setErrorReporting($mode)
@@ -408,5 +411,10 @@ class Application
         $this->setController($name);
         $this->getController()->handle();
         return $this;
+    }
+
+    public function getRouter(): Router
+    {
+        return $this->router;
     }
 }
