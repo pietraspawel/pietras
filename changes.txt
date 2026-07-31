@@ -1,3 +1,5 @@
+2026-07-31
+    dodano src/Renderer
 2026-07-30
     uproszczono src/Controller
     dodano src/Router
