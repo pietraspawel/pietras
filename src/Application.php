@@ -3,6 +3,7 @@
 namespace pietras\basic;
 
 use Symfony\Component\Yaml\Yaml;
+use Twig\Environment as Twig;
 
 /**
  * Store application properties and provide methods to control it.
@@ -42,10 +43,6 @@ class Application
      */
     private array $config;
     /**
-     * Obiekt Twiga.
-     */
-    private \Twig\Environment $twig;
-    /**
      * Database handler.
      */
     private Database $database;
@@ -75,14 +72,13 @@ class Application
         $this->setConfig(Yaml::parseFile($configFilepath));
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
-        $this->__initTwig();
         if (file_exists($dbConfigFilepath)) {
             $this->__initDatabase($dbConfigFilepath);
         }
         $this->__initSession();
 
         $this->router = new Router(Yaml::parseFile($this->config['routes_path']));
-        $this->renderer = new Renderer($this->twig, $this->config['translation_path']);
+        $this->renderer = new Renderer($this->createTwig(), $this->config['translation_path']);
     }
 
     protected function __setErrorReporting($mode)
@@ -106,17 +102,18 @@ class Application
             ->setUrl(new Url($config["app_url"]));
     }
 
-    protected function __initTwig()
+    protected function createTwig(): Twig
     {
         $config = $this->getConfig();
         $debug = $this->getMode() === "dev" ? true : false;
         $loader = new \Twig\Loader\FilesystemLoader($config["templates_path"]);
-        $this->twig = new \Twig\Environment($loader, [
+        $twig = new Twig($loader, [
             "cache" => $config["cache_path"],
             "debug" => $debug,
             "strict_variables" => true,
         ]);
-        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        $twig->addExtension(new \Twig\Extension\DebugExtension());
+        return $twig;
     }
 
     protected function __initDatabase(string $dbConfigFilepath)
@@ -218,11 +215,6 @@ class Application
     public function getMode(): string
     {
         return $this->config["MODE"];
-    }
-
-    public function getTwig(): \Twig\Environment
-    {
-        return $this->twig;
     }
 
     public function getUrl(): Url
