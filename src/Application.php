@@ -65,6 +65,7 @@ class Application
      * Pieprz do hasła.
      */
     private string $pepper;
+    private Renderer $renderer;
     private Router $router;
 
     /**
@@ -89,6 +90,7 @@ class Application
         $this->__initSession();
 
         $this->router = new Router(Yaml::parseFile($this->config['routes_path']));
+        $this->renderer = new Renderer($this->twig, $this->config['translation_path']);
     }
 
     protected function __setErrorReporting($mode)
@@ -411,6 +413,11 @@ class Application
         $this->setController($name);
         $this->getController()->handle();
         return $this;
+    }
+
+    public function getRenderer(): Renderer
+    {
+        return $this->renderer;
     }
 
     public function getRouter(): Router

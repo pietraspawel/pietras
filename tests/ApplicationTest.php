@@ -32,6 +32,7 @@ class ApplicationTest extends TestCase
     public function testContructor()
     {
         $this->assertInstanceOf(Router::class, $this->app->getRouter());
+        $this->assertInstanceOf(Renderer::class, $this->app->getRenderer());
     }
 
     public function testConfig()
