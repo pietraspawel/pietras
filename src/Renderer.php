@@ -20,21 +20,18 @@ class Renderer
         $this->config = $config;
     }
 
-    public function render(
-        string $templateFilename,
-        ?string $translationFilename = null,
-        array $args = []
-    ): string {
-        $vars = array_merge(
-            $this->globalVars,
-            $this->getTranslations($translationFilename),
-            $args
-        );
-
+    /**
+     * $templateFilename - ścieżka do pliku szablonu
+     * $args - dodatkowe zmienne (opcja)
+     * $translationFilename - ścieżka do pliku tłumaczeń (opcja)
+     */
+    public function render(string $templateFilename, ?string $translationFilename = null): string
+    {
+        $vars = array_merge($this->globalVars, $this->getTranslations($translationFilename));
         return $this->twig->render($templateFilename, $vars);
     }
 
-    public function addGlobalVar(string $name, mixed $value): self
+    public function addGlobalVar(string $name, $value): self
     {
         $this->globalVars[$name] = $value;
 

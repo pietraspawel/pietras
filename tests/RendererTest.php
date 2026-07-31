@@ -52,13 +52,8 @@ class RendererTest extends TestCase
     public function testRender()
     {
         $string = file_get_contents("templates/output.htm");
-        $this->renderer->addJsScript("http://pietraspawel.pl/testowisko/js/any_js.js");
-        $this->renderer->addNotice("Powiadomienie pierwsze");
-        $this->renderer->addNotice("Notatka druga");
-        $this->renderer->addNotice("Jakiś crap");
-        $userArgs = [ "userArg1" => "aaa", "userArg2" => "bbb" ];
-        $this->renderer->addRenderVar([ "renderVar1" => "rv1" ]);
+        $this->renderer->addGlobalVar("globalVar1", "gv1");
 
-        $this->assertSame($string, $this->renderer->render("test.twig", "test.yaml", $userArgs));
+        $this->assertSame($string, $this->renderer->render("test.twig", "test.yaml"));
     }
 }

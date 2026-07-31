@@ -1,26 +1,4 @@
 Jakieś zdanie po polsku.
-Testujemy zmienne globalne:
-appUrl = {{ appUrl }}
-urlCss = [
-{% for item in urlCss %}
-    {{ item }}
-{% endfor %}
-]
-urlJs = [
-{% for item in urlJs %}
-    {{ item }}
-{% endfor %}
-]
-errors = [
-{% for item in errors %}
-    {{ item }}
-{% endfor %}
-]
-notices = [
-{% for item in notices %}
-    {{ item }}
-{% endfor %}
-]
 basetext = [
 {% for key, item in basetext %}
     {{ key }} = [
@@ -35,6 +13,4 @@ text = [
     {{ key }} = {{ item }}
 {% endfor %}
 ]
-userArg1 = {{ userArg1 }}
-userArg2 = {{ userArg2 }}
-renderVar1 = {{ renderVar1 }}
+globalVar1 = {{ globalVar1 }}
