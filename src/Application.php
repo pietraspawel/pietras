@@ -30,14 +30,6 @@ class Application
      */
     private array $cssFiles;
     /**
-     * List of errors;
-     */
-    private array $errors;
-    /**
-     * List of notices.
-     */
-    private array $notices;
-    /**
      * Actual url.
      */
     private Url $url;
@@ -110,8 +102,6 @@ class Application
             ->setJsScripts([])
             ->setCssVersion($config["CSS_VERSION"])
             ->setCssFiles([])
-            ->setErrors([])
-            ->setNotices([])
             ->setPepper($config["passwordPepper"])
             ->setUrl(new Url($config["app_url"]));
     }
@@ -164,17 +154,6 @@ class Application
     }
 
     /**
-     * Add error to errors list.
-     *
-     * @param string $error Error description.
-     */
-    public function addError(string $error): self
-    {
-        $this->errors[] = $error;
-        return $this;
-    }
-
-    /**
      * Dodaje ścieżkę do pliku JavaScript do uruchomienia na stronie.
      */
     public function addJsScript(string $path): self
@@ -197,17 +176,6 @@ class Application
                 $this->addJsScript("$folderPath/$path");
             }
         }
-        return $this;
-    }
-
-    /**
-     * Add notice to notices list.
-     *
-     * @param string $notice Notice description.
-     */
-    public function addNotice(string $notice): self
-    {
-        $this->notices[] = $notice;
         return $this;
     }
 
@@ -245,31 +213,11 @@ class Application
     }
 
     /**
-     * Return list of errors.
-     *
-     * @return array
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
      * Zwraca tryb aplikacji, dev|prod.
      */
     public function getMode(): string
     {
         return $this->config["MODE"];
-    }
-
-    /**
-     * Return list of notices.
-     *
-     * @return array
-     */
-    public function getNotices(): array
-    {
-        return $this->notices;
     }
 
     public function getTwig(): \Twig\Environment
@@ -372,18 +320,6 @@ class Application
     public function setCssFiles(array $value): self
     {
         $this->cssFiles = $value;
-        return $this;
-    }
-
-    public function setErrors(array $value): self
-    {
-        $this->errors = $value;
-        return $this;
-    }
-
-    public function setNotices(array $value): self
-    {
-        $this->notices = $value;
         return $this;
     }
 
