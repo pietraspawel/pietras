@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 class RendererTest extends TestCase
 {
     private Renderer $renderer;
+    private Renderer $rendererWithoutTranslations;
 
     protected function setUp(): void
     {
@@ -17,7 +18,9 @@ class RendererTest extends TestCase
             "strict_variables" => true,
         ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());
+
         $this->renderer = new Renderer($twig, "translation/pl");
+        $this->rendererWithoutTranslations = new Renderer($twig);
     }
 
     public function testStandardRender()
@@ -30,5 +33,17 @@ class RendererTest extends TestCase
         ];
 
         $this->assertSame($string, $this->renderer->render("test.twig", $userArgs, "test.yaml"));
+    }
+
+    public function testRenderWithoutTranslations()
+    {
+        $output = "Jakieś zdanie po polsku.\nglobalVar1 = gv1\nuserArg1 = userArg1\nuserArg2 = 123";
+        $this->rendererWithoutTranslations->addGlobalVar("globalVar1", "gv1");
+        $userArgs = [
+            "userArg1" => "userArg1",
+            "userArg2" => 123,
+        ];
+
+        $this->assertSame($output, $this->rendererWithoutTranslations->render("test2.twig", $userArgs, "test.yaml"));
     }
 }
