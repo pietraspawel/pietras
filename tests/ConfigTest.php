@@ -47,4 +47,24 @@ class ConfigTest extends TestCase
         $this->assertSame("0.0.0", $config->get("CSS_VERSION"));
         $this->assertSame("pepper", $config->get("passwordPepper"));
     }
+
+    public function testCreateFromYamlFileDoesNotExist()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(
+            "Configuration file 'config/not-found.yaml' does not exist."
+        );
+
+        Config::createFromYaml("config/not-found.yaml");
+    }
+
+    public function testCreateFromYamlYamlIsNotArray()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(
+            "Configuration file 'config/invalid_application.yaml' is invalid."
+        );
+
+        Config::createFromYaml("config/invalid_application.yaml");
+    }
 }

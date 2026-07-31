@@ -15,7 +15,17 @@ class Config
 
     public static function createFromYaml(string $file): self
     {
-        return new self(Yaml::parseFile($file));
+        if (!is_file($file)) {
+            throw new \RuntimeException("Configuration file '{$file}' does not exist.");
+        }
+
+        $data = Yaml::parseFile($file);
+
+        if (!is_array($data)) {
+            throw new \RuntimeException("Configuration file '{$file}' is invalid.");
+        }
+
+        return new self($data);
     }
 
     public function get(string $key)
