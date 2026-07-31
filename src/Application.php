@@ -288,8 +288,17 @@ class Application
     public function setController(string $name): self
     {
         $name = ucfirst($name);
-        $controllerName = "pietras\\Controller\\{$name}";
-        $this->controller = new $controllerName($this);
+        $namespace = rtrim($this->config['controllersNamespace'], "\\");
+        $controllerName = "{$namespace}\\{$name}";
+        if (!class_exists($controllerName)) {
+            throw new \RuntimeException("Controller {$controllerName} does not exist.");
+        }
+        if (!is_subclass_of($controllerName, Controller::class)) {
+            throw new \RuntimeException(
+                "{$controllerName} is not a controller."
+            );
+        }
+            $this->controller = new $controllerName($this);
         return $this;
     }
 

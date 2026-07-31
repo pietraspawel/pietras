@@ -26,6 +26,7 @@ class ApplicationTest extends TestCase
                 "translation_path" => "translation/pl",
                 "routes_path" => "config/routes.yaml",
                 "passwordPepper" => "pepper",
+                "controllersNamespace" => "pietras\\controller",
             ];
     }
 
@@ -83,9 +84,28 @@ class ApplicationTest extends TestCase
 
     public function testSetController()
     {
-        $controller = new \pietras\Controller\Test($this->app);
+        $controller = new \pietras\controller\Test($this->app);
         $this->app->setController("test");
         $this->assertEquals($controller, $this->app->getController());
+        $this->assertInstanceOf(\pietras\Controller\Test::class, $this->app->getController());
+    }
+
+    public function testSetNonExistingController()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(
+            "Controller pietras\\controller\\DoesNotExist does not exist."
+        );
+        $this->app->setController("DoesNotExist");
+    }
+
+    public function testSetWrongClassTypeController()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(
+            "pietras\\controller\\WrongClass is not a controller."
+        );
+        $this->app->setController("WrongClass");
     }
 
     public function testGetUrlParam()
