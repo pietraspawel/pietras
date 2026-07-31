@@ -11,13 +11,13 @@ use Twig\Environment;
 class Renderer
 {
     private Environment $twig;
-    private array $config;
+    private ?string $translationPath;
     private array $globalVars = [];
 
-    public function __construct(Environment $twig, array $config)
+    public function __construct(Environment $twig, ?string $translationPath = null)
     {
         $this->twig = $twig;
-        $this->config = $config;
+        $this->translationPath = $translationPath;
     }
 
     /**
@@ -47,18 +47,14 @@ class Renderer
         return $this;
     }
 
-    public function getTranslations(?string $translationFilename): array
+    private function getTranslations(?string $translationFilename): array
     {
-        $path = $this->config["translation_path"];
-
-        $translation = [
-            "basetext" => Yaml::parseFile("{$path}/base.yaml"),
-        ];
-
-        if ($translationFilename !== null) {
-            $translation["text"] = Yaml::parseFile(
-                "{$path}/{$translationFilename}"
-            );
+        $translation = [];
+        if ($this->translationPath !== null) {
+            $translation = [ "basetext" => Yaml::parseFile("{$this->translationPath}/base.yaml"), ];
+            if ($translationFilename !== null) {
+                $translation["text"] = Yaml::parseFile("{$this->translationPath}/{$translationFilename}");
+            }
         }
 
         return $translation;
