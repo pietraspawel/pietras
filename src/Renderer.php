@@ -22,12 +22,12 @@ class Renderer
 
     /**
      * $templateFilename - ścieżka do pliku szablonu
-     * $args - dodatkowe zmienne (opcja)
      * $translationFilename - ścieżka do pliku tłumaczeń (opcja)
+     * $userArgs - dodatkowe zmienne (opcja)
      */
-    public function render(string $templateFilename, ?string $translationFilename = null): string
+    public function render(string $templateFilename, ?string $translationFilename = null, array $userArgs = []): string
     {
-        $vars = array_merge($this->globalVars, $this->getTranslations($translationFilename));
+        $vars = array_merge($this->globalVars, $this->getTranslations($translationFilename), $userArgs);
         return $this->twig->render($templateFilename, $vars);
     }
 
