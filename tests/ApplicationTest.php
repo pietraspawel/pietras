@@ -49,27 +49,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals([], $this->app->getErrors());
         $this->assertEquals([], $this->app->getNotices());
         $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getAppUrl());
-        $this->assertEquals([], $this->app->getRenderVars());
         $this->assertEquals("pepper", $this->app->getPepper());
-    }
-
-    public function testRenderVars()
-    {
-        $this->assertEquals([], $this->app->getRenderVars());
-        $this->app->addRenderVar([ "aaa" => 111 ]);
-        $this->assertEquals([ "aaa" => 111 ], $this->app->getRenderVars());
-        $this->app->addRenderVar([ "bbb" => 222, "ccc" => 333, "aaa" => 11 ]);
-        $this->assertEquals([ "aaa" => 11, "bbb" => 222, "ccc" => 333 ], $this->app->getRenderVars());
-    }
-
-    public function testGetTranslation()
-    {
-        $array = [
-            "keyboard" => "klawiatura",
-            "test" => "test",
-            "notebook" => "zeszyt",
-        ];
-        $this->assertEquals($array, $this->app->getTranslation("test.yaml"));
     }
 
     public function testIsTest()
@@ -86,20 +66,6 @@ class ApplicationTest extends TestCase
         $this->assertEquals($array, $this->app->getCssFiles());
     }
 
-    public function testRender()
-    {
-        $string = file_get_contents("templates/output.htm");
-        $this->app->addCss("http://pietraspawel.pl/testowisko/css/inny_plik.css");
-        $this->app->addJsScript("http://pietraspawel.pl/testowisko/js/any_js.js");
-        $this->app->addNotice("Powiadomienie pierwsze");
-        $this->app->addNotice("Notatka druga");
-        $this->app->addNotice("Jakiś crap");
-        $userArgs = [ "userArg1" => "aaa", "userArg2" => "bbb" ];
-        $this->app->addRenderVar([ "renderVar1" => "rv1" ]);
-
-        $this->assertEquals($string, $this->app->render("test.twig", "test.yaml", $userArgs));
-    }
-
     public function testAddJsFolder()
     {
         $array = [
@@ -109,18 +75,6 @@ class ApplicationTest extends TestCase
         $this->assertEmpty($this->app->getJsScripts());
         $this->app->addJsFolder("js");
         $this->assertEquals($array, $this->app->getJsScripts());
-    }
-
-    public function testGetRoutes()
-    {
-        $array = [
-            "Controller1" => [ "url1" ],
-            "Controller2" => [
-                "url2",
-                "url3",
-            ],
-        ];
-        $this->assertEquals($array, $this->app->getRoutes());
     }
 
     public function testSetController()

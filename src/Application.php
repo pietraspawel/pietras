@@ -54,10 +54,6 @@ class Application
      */
     private \Twig\Environment $twig;
     /**
-     * Global variables, which are sended to every twig template.
-     */
-    private array $renderVars;
-    /**
      * Database handler.
      */
     private Database $database;
@@ -113,7 +109,6 @@ class Application
             ->setNotices([])
             ->setPepper($config["passwordPepper"])
             ->setUrl(new Url($config["app_url"]));
-        $this->renderVars = [];
     }
 
     protected function __initTwig()
@@ -152,52 +147,6 @@ class Application
         if (!$this->isTest()) {
             session_start();
         }
-    }
-
-    /**
-     * Zwraca tablicę z tłumaczeniem zapisanym w $translationFilename.
-     */
-    public function getTranslation(string $translationFilename): ?array
-    {
-        $path = $this->getConfig()["translation_path"];
-        return Yaml::parseFile("{$path}/{$translationFilename}");
-    }
-
-    /**
-     * Funkcja renderująca widok przy pomocy Twiga.
-     * Przekazuje zmienne $args, jak i globalne zmienne z tego obiektu.
-     */
-    public function render(string $templateFilename, string $translationFilename = null, ?array $userArgs = []): string
-    {
-        $globalArgs = [
-            "appUrl" => $this->getAppUrl(),
-            "urlCss" => [],
-            "urlJs" => [],
-            "errors" => [],
-            "notices" => [],
-        ];
-        if (!$this->isTest) {
-            $globalArgs["session"] = $_SESSION;
-        }
-        foreach ($this->cssFiles as $value) {
-            $globalArgs["urlCss"][] = $value;
-        }
-        foreach ($this->jsScripts as $value) {
-            $globalArgs["urlJs"][] = "$value?" . $this->getJsVersion();
-        }
-        foreach ($this->errors as $value) {
-            $globalArgs["errors"][] = $value;
-        }
-        foreach ($this->notices as $value) {
-            $globalArgs["notices"][] = $value;
-        }
-        $path = $this->getConfig()["translation_path"];
-        $translation = [ "basetext" => Yaml::parseFile("{$path}/base.yaml"), ];
-        if ($translationFilename !== null) {
-            $translation["text"] = Yaml::parseFile("{$path}/{$translationFilename}");
-        }
-        $args = array_merge($globalArgs, $this->getRenderVars(), $userArgs, $translation);
-        return $this->twig->render($templateFilename, $args);
     }
 
     public function addCss(string $path): self
@@ -254,18 +203,6 @@ class Application
     public function addNotice(string $notice): self
     {
         $this->notices[] = $notice;
-        return $this;
-    }
-
-    /**
-     * Add $variable to $this->renderVars.
-     * It should be array like [ variableName => value ].
-     */
-    public function addRenderVar(array $variable): self
-    {
-        foreach ($variable as $key => $value) {
-            $this->renderVars[$key] = $value;
-        }
         return $this;
     }
 
@@ -377,22 +314,9 @@ class Application
         return $this->config;
     }
 
-    public function getRenderVars(): array
-    {
-        return $this->renderVars;
-    }
-
     public function getDatabase(): ?Database
     {
         return $this->database;
-    }
-
-    public function getRoutes(): array
-    {
-        if (!isset($this->routes)) {
-            $this->routes = Yaml::parseFile("config/routes.yaml");
-        }
-        return $this->routes;
     }
 
     public function getPepper(): string
