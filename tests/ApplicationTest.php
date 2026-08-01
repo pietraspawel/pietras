@@ -3,6 +3,7 @@
 namespace pietras\basic;
 
 use PHPUnit\Framework\TestCase;
+use pietras\basic\model\Config;
 
 class ApplicationTest extends TestCase
 {
@@ -34,27 +35,30 @@ class ApplicationTest extends TestCase
     {
         $this->assertInstanceOf(Router::class, $this->app->getRouter());
         $this->assertInstanceOf(Renderer::class, $this->app->getRenderer());
+        $this->assertInstanceOf(Config::class, $this->app->getConfig());
     }
 
     public function testConfig()
     {
-        $this->assertEquals($this->config, $this->app->getConfig());
+        $this->assertSame("dev", $this->app->getConfig()->get('MODE'));
+        $this->assertSame("cache", $this->app->getConfig()->get('cache_path'));
+        $this->assertSame("pietras\\controller", $this->app->getConfig()->get('controllersNamespace'));
     }
 
     public function testErrorReporting()
     {
-        $this->assertEquals(E_ALL, error_reporting());
+        $this->assertSame(E_ALL, error_reporting());
     }
 
     public function testInitVariables()
     {
-        $this->assertEquals("dev", $this->app->getMode());
-        $this->assertEquals("0.0.0", $this->app->getJsVersion());
-        $this->assertEquals([], $this->app->getJsScripts());
-        $this->assertEquals("0.0.0", $this->app->getCssVersion());
-        $this->assertEquals([], $this->app->getCssFiles());
-        $this->assertEquals("http://pietraspawel.pl/testowisko", $this->app->getAppUrl());
-        $this->assertEquals("pepper", $this->app->getPepper());
+        $this->assertSame("dev", $this->app->getMode());
+        $this->assertSame("0.0.0", $this->app->getJsVersion());
+        $this->assertSame([], $this->app->getJsScripts());
+        $this->assertSame("0.0.0", $this->app->getCssVersion());
+        $this->assertSame([], $this->app->getCssFiles());
+        $this->assertSame("http://pietraspawel.pl/testowisko", $this->app->getAppUrl());
+        $this->assertSame("pepper", $this->app->getPepper());
     }
 
     public function testIsTest()
@@ -68,7 +72,7 @@ class ApplicationTest extends TestCase
             "http://pietraspawel.pl/testowisko/css/inny_plik.css?0.0.0",
         ];
         $this->app->addCss("http://pietraspawel.pl/testowisko/css/inny_plik.css");
-        $this->assertEquals($array, $this->app->getCssFiles());
+        $this->assertSame($array, $this->app->getCssFiles());
     }
 
     public function testAddJsFolder()
@@ -79,7 +83,7 @@ class ApplicationTest extends TestCase
         ];
         $this->assertEmpty($this->app->getJsScripts());
         $this->app->addJsFolder("js");
-        $this->assertEquals($array, $this->app->getJsScripts());
+        $this->assertSame($array, $this->app->getJsScripts());
     }
 
     public function testSetController()
@@ -110,8 +114,8 @@ class ApplicationTest extends TestCase
 
     public function testGetUrlParam()
     {
-        $this->assertEquals("param1", $this->app->getUrlParam(0));
-        $this->assertEquals("param2", $this->app->getUrlParam(1));
-        $this->assertEquals("param3", $this->app->getUrlParam(2));
+        $this->assertSame("param1", $this->app->getUrlParam(0));
+        $this->assertSame("param2", $this->app->getUrlParam(1));
+        $this->assertSame("param3", $this->app->getUrlParam(2));
     }
 }

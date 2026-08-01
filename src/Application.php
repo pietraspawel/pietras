@@ -2,6 +2,7 @@
 
 namespace pietras\basic;
 
+use pietras\basic\model\Config;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Environment as Twig;
 
@@ -41,7 +42,7 @@ class Application
     /**
      * Keeps configuration.
      */
-    private array $config;
+    private Config $config;
     /**
      * Database handler.
      */
@@ -69,7 +70,7 @@ class Application
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
-        $this->setConfig(Yaml::parseFile($configFilepath));
+        $this->config = Config::createFromYaml($configFilepath);
         $this->__setErrorReporting($this->getMode());
         $this->__initVariables();
         if (file_exists($dbConfigFilepath)) {
@@ -77,8 +78,8 @@ class Application
         }
         $this->__initSession();
 
-        $this->router = new Router(Yaml::parseFile($this->config['routes_path']));
-        $this->renderer = new Renderer($this->createTwig(), $this->config['translation_path']);
+        $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
+        $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
     }
 
     protected function __setErrorReporting($mode)
@@ -92,23 +93,21 @@ class Application
 
     protected function __initVariables()
     {
-        $config = $this->getConfig();
         $this
-            ->setJsVersion($config["JS_VERSION"])
+            ->setJsVersion($this->config->get("JS_VERSION"))
             ->setJsScripts([])
-            ->setCssVersion($config["CSS_VERSION"])
+            ->setCssVersion($this->config->get("CSS_VERSION"))
             ->setCssFiles([])
-            ->setPepper($config["passwordPepper"])
-            ->setUrl(new Url($config["app_url"]));
+            ->setPepper($this->config->get("passwordPepper"))
+            ->setUrl(new Url($this->config->get("app_url")));
     }
 
     protected function createTwig(): Twig
     {
-        $config = $this->getConfig();
         $debug = $this->getMode() === "dev" ? true : false;
-        $loader = new \Twig\Loader\FilesystemLoader($config["templates_path"]);
+        $loader = new \Twig\Loader\FilesystemLoader($this->config->get("templates_path"));
         $twig = new Twig($loader, [
-            "cache" => $config["cache_path"],
+            "cache" => $this->config->get("cache_path"),
             "debug" => $debug,
             "strict_variables" => true,
         ]);
@@ -206,7 +205,7 @@ class Application
      */
     public function getJSVersion(): string
     {
-        return $this->getConfig()["JS_VERSION"];
+        return $this->config->get("JS_VERSION");
     }
 
     /**
@@ -214,7 +213,7 @@ class Application
      */
     public function getMode(): string
     {
-        return $this->config["MODE"];
+        return $this->config->get("MODE");
     }
 
     public function getUrl(): Url
@@ -251,10 +250,7 @@ class Application
         return $this->controller;
     }
 
-    /**
-     * Zwraca konfigurację w formie tablicy.
-     */
-    public function getConfig(): ?array
+    public function getConfig(): Config
     {
         return $this->config;
     }
@@ -280,7 +276,7 @@ class Application
     public function setController(string $name): self
     {
         $name = ucfirst($name);
-        $namespace = rtrim($this->config['controllersNamespace'], "\\");
+        $namespace = rtrim($this->config->get('controllersNamespace'), "\\");
         $controllerName = "{$namespace}\\{$name}";
         if (!class_exists($controllerName)) {
             throw new \RuntimeException("Controller {$controllerName} does not exist.");
@@ -291,12 +287,6 @@ class Application
             );
         }
             $this->controller = new $controllerName($this);
-        return $this;
-    }
-
-    public function setConfig(array $value): self
-    {
-        $this->config = $value;
         return $this;
     }
 
