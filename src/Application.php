@@ -12,10 +12,6 @@ use Twig\Environment as Twig;
 class Application
 {
     /**
-     * Must be "dev" or "prod".
-     */
-    private string $mode;
-    /**
      * Actual version of Java Script files.
      */
     private string $jsVersion;
