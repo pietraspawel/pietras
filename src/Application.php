@@ -60,14 +60,16 @@ class Application
         }
         $this->config = Config::createFromYaml($configFilepath);
         $this->__setErrorReporting($this->getMode());
-        $this->__initVariables();
+        $this->jsScripts = [];
+        $this->cssFiles = [];
+        $this->pepper = $this->config->get("passwordPepper");
+        $this->url = new Url($this->config->get("app_url"));
+        $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
+        $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
         if (file_exists($dbConfigFilepath)) {
             $this->__initDatabase($dbConfigFilepath);
         }
         $this->__initSession();
-
-        $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
-        $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
     }
 
     protected function __setErrorReporting($mode)
@@ -77,15 +79,6 @@ class Application
         } else {
             error_reporting(0);
         }
-    }
-
-    protected function __initVariables()
-    {
-        $this
-            ->setJsScripts([])
-            ->setCssFiles([])
-            ->setPepper($this->config->get("passwordPepper"))
-            ->setUrl(new Url($this->config->get("app_url")));
     }
 
     protected function createTwig(): Twig
