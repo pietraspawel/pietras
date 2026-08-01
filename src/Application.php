@@ -12,10 +12,6 @@ use Twig\Environment as Twig;
 class Application
 {
     /**
-     * Actual version of Java Script files.
-     */
-    private string $jsVersion;
-    /**
      * Array of filepaths to js scripts to run on the page.
      */
     private array $jsScripts;
@@ -90,7 +86,6 @@ class Application
     protected function __initVariables()
     {
         $this
-            ->setJsVersion($this->config->get("JS_VERSION"))
             ->setJsScripts([])
             ->setCssVersion($this->config->get("CSS_VERSION"))
             ->setCssFiles([])
@@ -283,12 +278,6 @@ class Application
             );
         }
             $this->controller = new $controllerName($this);
-        return $this;
-    }
-
-    public function setJsVersion(string $value): self
-    {
-        $this->jsVersion = $value;
         return $this;
     }
 
