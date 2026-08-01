@@ -42,7 +42,6 @@ class Application
     /**
      * Pieprz do hasła.
      */
-    private string $pepper;
     private Renderer $renderer;
     private Router $router;
 
@@ -241,7 +240,7 @@ class Application
 
     public function getPepper(): string
     {
-        return $this->pepper;
+        return $this->config->get("passwordPepper");
     }
 
     public function isTest(): bool
@@ -284,12 +283,6 @@ class Application
     public function setUrl(Url $url): self
     {
         $this->url = $url;
-        return $this;
-    }
-
-    private function setPepper(string $pepper): self
-    {
-        $this->pepper = $pepper;
         return $this;
     }
 
