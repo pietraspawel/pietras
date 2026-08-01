@@ -16,10 +16,6 @@ class Application
      */
     private array $jsScripts;
     /**
-     * Actual version of CSS files.
-     */
-    private string $cssVersion;
-    /**
      * Array of filepaths to css files.
      */
     private array $cssFiles;
@@ -87,7 +83,6 @@ class Application
     {
         $this
             ->setJsScripts([])
-            ->setCssVersion($this->config->get("CSS_VERSION"))
             ->setCssFiles([])
             ->setPepper($this->config->get("passwordPepper"))
             ->setUrl(new Url($this->config->get("app_url")));
@@ -173,7 +168,7 @@ class Application
      */
     public function getCssVersion(): string
     {
-        return $this->cssVersion;
+        return $this->config->get("CSS_VERSION");
     }
 
     public function getCssFiles(): array
@@ -284,12 +279,6 @@ class Application
     public function setJsScripts(array $value): self
     {
         $this->jsScripts = $value;
-        return $this;
-    }
-
-    public function setCssVersion(string $value): self
-    {
-        $this->cssVersion = $value;
         return $this;
     }
 
