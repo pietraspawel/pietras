@@ -26,7 +26,7 @@ class Application
     /**
      * Controller object.
      */
-    private Controller $controller;
+    private ?Controller $controller;
     /**
      * Keeps configuration.
      */
