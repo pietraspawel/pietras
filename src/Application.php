@@ -59,7 +59,7 @@ class Application
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
         $this->config = Config::createFromYaml($configFilepath);
-        $this->__setErrorReporting($this->getMode());
+        $this->setErrorReporting($this->getMode());
         $this->jsScripts = [];
         $this->cssFiles = [];
         $this->pepper = $this->config->get("passwordPepper");
@@ -67,12 +67,12 @@ class Application
         $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
         $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
         if (file_exists($dbConfigFilepath)) {
-            $this->__initDatabase($dbConfigFilepath);
+            $this->initDatabase($dbConfigFilepath);
         }
-        $this->__initSession();
+        $this->initSession();
     }
 
-    protected function __setErrorReporting($mode)
+    private function setErrorReporting($mode)
     {
         if ($mode == "dev") {
             error_reporting(E_ALL);
@@ -81,7 +81,7 @@ class Application
         }
     }
 
-    protected function createTwig(): Twig
+    private function createTwig(): Twig
     {
         $debug = $this->getMode() === "dev" ? true : false;
         $loader = new \Twig\Loader\FilesystemLoader($this->config->get("templates_path"));
@@ -94,7 +94,7 @@ class Application
         return $twig;
     }
 
-    protected function __initDatabase(string $dbConfigFilepath)
+    private function initDatabase(string $dbConfigFilepath)
     {
         $dbConfig = (Yaml::parseFile($dbConfigFilepath));
         $host = $dbConfig["DB_HOST"];
@@ -112,7 +112,7 @@ class Application
         }
     }
 
-    protected function __initSession()
+    private function initSession()
     {
         if (!$this->isTest()) {
             session_start();
