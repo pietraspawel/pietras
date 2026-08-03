@@ -15,6 +15,15 @@ class Database extends \mysqli
         $this->sqlsHistory = [];
     }
 
+    public static function createFromConfig(Config $config): self
+    {
+        $host = $config->get("DB_HOST");
+        $user = $config->get("DB_USER");
+        $pass = $config->get("DB_PASS");
+        $databaseName = $config->get("DB_NAME");
+        return new Database($host, $user, $pass, $databaseName);
+    }
+
     public function getDebug(): bool
     {
         return $this->debug;
