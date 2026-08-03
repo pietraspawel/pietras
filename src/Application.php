@@ -45,14 +45,8 @@ class Application
     private Renderer $renderer;
     private Router $router;
 
-    /**
-     * $configFilepath
-     *  ścieżka do pliku konfiguracji
-    */
-    public function __construct(
-        string $configFilepath = "../config/application.yaml",
-        string $dbConfigFilepath = "../config/database.yaml"
-    ) {
+    public function __construct(string $configFilepath, ?string $dbConfigFilepath = null)
+    {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
