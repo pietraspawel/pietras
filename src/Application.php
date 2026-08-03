@@ -61,7 +61,6 @@ class Application
         $this->setErrorReporting($this->getMode());
         $this->jsScripts = [];
         $this->cssFiles = [];
-        $this->pepper = $this->config->get("passwordPepper");
         $this->url = new Url($this->config->get("app_url"));
         $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
         $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
