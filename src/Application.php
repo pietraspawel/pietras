@@ -45,13 +45,13 @@ class Application
     private Renderer $renderer;
     private Router $router;
 
-    public function __construct(string $configFilepath, ?string $dbConfigFilepath = null)
+    public function __construct(Config $config, ?string $dbConfigFilepath = null)
     {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
-        $this->config = Config::createFromYaml($configFilepath);
+        $this->config = $config;
         $this->configureErrorHandling($this->getMode());
         $this->jsScripts = [];
         $this->cssFiles = [];
