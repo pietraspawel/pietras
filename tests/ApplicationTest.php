@@ -37,6 +37,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(Router::class, $this->app->getRouter());
         $this->assertInstanceOf(Renderer::class, $this->app->getRenderer());
         $this->assertInstanceOf(Config::class, $this->app->getConfig());
+        $this->assertSame(null, $this->app->getDatabase());
     }
 
     public function testConfig()

@@ -34,7 +34,7 @@ class Application
     /**
      * Database handler.
      */
-    private Database $database;
+    private ?Database $database;
     /**
      * Tells if phpunit test is running.
      */
@@ -45,22 +45,20 @@ class Application
     private Renderer $renderer;
     private Router $router;
 
-    public function __construct(Config $config, ?string $dbConfigFilepath = null)
+    public function __construct(Config $config, ?Database $database = null)
     {
         $this->isTest = false;
         if (defined('PHPUNIT_TESTING')) {
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
         $this->config = $config;
-        $this->configureErrorHandling($this->getMode());
         $this->jsScripts = [];
         $this->cssFiles = [];
         $this->url = new Url($this->config->get("app_url"));
         $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
         $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
-        if (file_exists($dbConfigFilepath)) {
-            $this->initDatabase($dbConfigFilepath);
-        }
+        $this->database = $database;
+        $this->configureErrorHandling($this->getMode());
         $this->initSession();
     }
 
@@ -88,24 +86,6 @@ class Application
         ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());
         return $twig;
-    }
-
-    private function initDatabase(string $dbConfigFilepath)
-    {
-        $dbConfig = (Yaml::parseFile($dbConfigFilepath));
-        $host = $dbConfig["DB_HOST"];
-        $user = $dbConfig["DB_USER"];
-        $pass = $dbConfig["DB_PASS"];
-        $databaseName = $dbConfig["DB_NAME"];
-        $this->database = new Database($host, $user, $pass, $databaseName);
-        if ($this->database->connect_error !== null) {
-            if ($this->getMode() == "dev") {
-                trigger_error("Database connection error: " . $this->database->connect_error, E_USER_ERROR);
-            } else {
-                echo "Database connection error.";
-            }
-            die();
-        }
     }
 
     private function initSession()
