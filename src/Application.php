@@ -152,8 +152,6 @@ class Application
 
     /**
      * Return actual version of CSS files.
-     *
-     * @return string
      */
     public function getCssVersion(): string
     {
@@ -175,8 +173,6 @@ class Application
 
     /**
      * Return actual version of Java Script files.
-     *
-     * @return string
      */
     public function getJSVersion(): string
     {
@@ -199,8 +195,6 @@ class Application
     /**
      * Zwraca n-ty parametr URL lub null, gdy nieokreślony.
      * Index liczony od 1.
-     *
-     * @return null|string
      */
     public function getUrlParam(int $index): ?string
     {
@@ -209,8 +203,6 @@ class Application
 
     /**
      * Return application url without parameters.
-     *
-     * @return string
      */
     public function getAppUrl(): string
     {
