@@ -52,7 +52,7 @@ class Application
             $this->isTest = PHPUNIT_TESTING ?? false;
         }
         $this->config = Config::createFromYaml($configFilepath);
-        $this->setErrorReporting($this->getMode());
+        $this->configureErrorHandling($this->getMode());
         $this->jsScripts = [];
         $this->cssFiles = [];
         $this->url = new Url($this->config->get("app_url"));
@@ -64,12 +64,16 @@ class Application
         $this->initSession();
     }
 
-    private function setErrorReporting($mode)
+    private function configureErrorHandling($mode)
     {
+        error_reporting(E_ALL);
+        ini_set('log_errors', '1');
         if ($mode == "dev") {
-            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+            ini_set('display_startup_errors', '1');
         } else {
-            error_reporting(0);
+            ini_set('display_errors', '0');
+            ini_set('display_startup_errors', '0');
         }
     }
 

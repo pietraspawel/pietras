@@ -48,6 +48,9 @@ class ApplicationTest extends TestCase
     public function testErrorReporting()
     {
         $this->assertSame(E_ALL, error_reporting());
+        $this->assertSame('1', ini_get('log_errors'));
+        $this->assertSame('1', ini_get('display_errors'));
+        $this->assertSame('1', ini_get('display_startup_errors'));
     }
 
     public function testInitVariables()
