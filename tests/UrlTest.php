@@ -96,4 +96,13 @@ class UrlTest extends TestCase
         $this->assertSame(null, $this->url4->getParam(2));
         $this->assertSame(2, $this->url4->countParams());
     }
+
+    public function testParamEquals()
+    {
+        $this->assertTrue($this->url->paramNEquals(0, "param1"));
+        $this->assertTrue($this->url->paramNEquals(1, "param2"));
+        $this->assertTrue($this->url->paramNEquals(2, "param3"));
+        $this->assertFalse($this->url->paramNEquals(0, "param3"));
+        $this->assertFalse($this->url->paramNEquals(3, "param3"));
+    }
 }

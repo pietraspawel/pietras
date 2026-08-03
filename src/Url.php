@@ -113,4 +113,19 @@ class Url
     {
         return count($this->params);
     }
+
+    /**
+     * Sprawdza, czy parametr[$index] === $value.
+     * Zwraca false, również, jeśli parametr[$index] nie istnieje.
+     */
+    public function paramNEquals(int $index, $value): bool
+    {
+        if (!isset($this->params[$index])) {
+            return false;
+        }
+        if ($this->params[$index] === $value) {
+            return true;
+        }
+        return false;
+    }
 }
