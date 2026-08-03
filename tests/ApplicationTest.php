@@ -123,4 +123,21 @@ class ApplicationTest extends TestCase
         $this->assertSame("param2", $this->app->getUrlParam(1));
         $this->assertSame("param3", $this->app->getUrlParam(2));
     }
+
+    public function testMonitoredVars()
+    {
+        $array = [
+            "string" => "aaa",
+            "int" => 123,
+            "float" => 123.5,
+            "bool" => true,
+        ];
+        $this->assertSame([], $this->app->getMonitoredVars());
+        $this->app->addMonitoredVar("string", "aaa");
+        $this->app->addMonitoredVar("int", 123);
+        $this->app->addMonitoredVar("float", 123.5);
+        $this->app->addMonitoredVar("bool", true);
+        $this->assertSame(123, $this->app->getMonitoredVar("int"));
+        $this->assertSame($array, $this->app->getMonitoredVars());
+    }
 }

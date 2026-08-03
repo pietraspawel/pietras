@@ -44,6 +44,10 @@ class Application
      */
     private Renderer $renderer;
     private Router $router;
+    /**
+     * Tablica przechowująca nazwy zmiennych do wyświetlenia w vars_monitor.
+     */
+    private array $monitoredVars;
 
     public function __construct(Config $config, ?Database $database = null)
     {
@@ -58,6 +62,7 @@ class Application
         $this->router = new Router(Yaml::parseFile($this->config->get('routes_path')));
         $this->renderer = new Renderer($this->createTwig(), $this->config->get('translation_path'));
         $this->database = $database;
+        $this->monitoredVars = [];
         $this->configureErrorHandling($this->getMode());
         $this->initSession();
     }
@@ -212,6 +217,16 @@ class Application
         return $this->config->get("passwordPepper");
     }
 
+    public function getMonitoredVars(): array
+    {
+        return $this->monitoredVars;
+    }
+
+    public function getMonitoredVar(string $key)
+    {
+        return $this->monitoredVars[$key];
+    }
+
     public function isTest(): bool
     {
         return $this->isTest;
@@ -279,5 +294,10 @@ class Application
     public function getRouter(): Router
     {
         return $this->router;
+    }
+
+    public function addMonitoredVar(string $varName, $value): void
+    {
+        $this->monitoredVars[$varName] = $value;
     }
 }
