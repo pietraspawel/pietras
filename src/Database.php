@@ -48,6 +48,17 @@ class Database extends \mysqli
         return $this->queryToArray($stmt);
     }
 
+    public function indexedQuery(
+        string $sql,
+        string $types = null,
+        array $parameters = null,
+        string $index = "id"
+    ): array {
+        $stmt = $this->SQL($sql, $types, $parameters);
+
+        return $this->queryToIndexedArray($stmt, $index);
+    }
+
     public function singleValueQuery(string $sql, string $types = null, array $parameters = null)
     {
         $stmt = $this->SQL($sql, $types, $parameters);
@@ -130,10 +141,26 @@ class Database extends \mysqli
         $id = -1;
         if (!empty($stmt)) {
             while ($row = $stmt->fetch_assoc()) {
-                if (array_key_exists('ID', $row)) {
-                    $id = $row['ID'];
-                } elseif (array_key_exists('id', $row)) {
-                    $id = $row['id'];
+                $id++;
+                foreach ($row as $key => $value) {
+                    $tab[$id][$key] = $value;
+                }
+            }
+        }
+        return $tab;
+    }
+
+    private function queryToIndexedArray($stmt, string $indexName): array
+    {
+        if (get_class($stmt) == 'mysqli_stmt') {
+            $stmt = $stmt->get_result();
+        }
+        $tab = array();
+        $id = -1;
+        if (!empty($stmt)) {
+            while ($row = $stmt->fetch_assoc()) {
+                if (array_key_exists($indexName, $row)) {
+                    $id = $row[$indexName];
                 } else {
                     $id++;
                 }

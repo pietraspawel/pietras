@@ -115,11 +115,11 @@ class DatabaseIntegrationTest extends TestCase
         $this->db->SQL("INSERT INTO users(name, age, weight, runner) VALUES(?,?,?,?)", "siii", ["Jan",33,80.5,true]);
         $this->db->commit();
 
-        $row = $this->db->arrayQuery("SELECT * FROM users WHERE id=0");
+        $row = $this->db->indexedQuery("SELECT * FROM users WHERE id=1");
 
-        $this->assertSame("Jan", $row[0]["name"]);
-        $this->assertSame(33, $row[0]["age"]);
-        $this->assertSame(80.5, $row[0]["weight"]);
-        $this->assertSame(true, $row[0]["runner"]);
+        $this->assertSame("Jan", $row[1]["name"]);
+        $this->assertSame(33, $row[1]["age"]);
+        $this->assertSame(80.5, $row[1]["weight"]);
+        $this->assertSame(true, $row[1]["runner"]);
     }
 }
