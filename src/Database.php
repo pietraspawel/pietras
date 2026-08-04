@@ -2,6 +2,8 @@
 
 namespace pietras\basic;
 
+use pietras\basic\model\Config;
+
 class Database extends \mysqli
 {
     private $debug;
@@ -55,7 +57,7 @@ class Database extends \mysqli
     public function SQL(string $sql, string $types = null, array $parameters = null)
     {
         $stmt = false;
-        $this->sqlsHistory[] = $sql;
+        $this->sqlsHistory[] = $this->interpolateSql($sql, $types, $parameters);
         if ($types !== null) {
             $stmt = $this->prepare($sql);
             if ($stmt == false and $this->debug) {
@@ -76,6 +78,47 @@ class Database extends \mysqli
             }
         }
         return $stmt;
+    }
+
+    private function interpolateSql(string $sql, ?string $types, ?array $parameters): string
+    {
+        if ($parameters === null) {
+            return $sql;
+        }
+
+        foreach ($parameters as $i => $parameter) {
+            $type = $types[$i] ?? 's';
+
+            if ($parameter === null) {
+                $value = 'NULL';
+            } else {
+                switch ($type) {
+                    case 'i':
+                        $value = (string) (int) $parameter;
+                        break;
+
+                    case 'd':
+                        $value = (string) (float) $parameter;
+                        break;
+
+                    case 'b':
+                        $value = "'<BLOB>'";
+                        break;
+
+                    case 's':
+                    default:
+                        if ($parameter === null) {
+                            $value = 'NULL';
+                        } else {
+                            $value = "'" . $this->real_escape_string((string) $parameter) . "'";
+                        }
+                        break;
+                }
+            }
+            $sql = preg_replace('/\?/', $value, $sql, 1);
+        }
+
+        return $sql;
     }
 
     private function queryToArray($stmt)

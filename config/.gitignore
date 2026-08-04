@@ -1,6 +1,3 @@
-*.yaml
-
-!application_example.yaml
-!database_example.yaml
-!invalid_application.yaml
-!routes_example.yaml
+application.yaml
+database.yaml
+routes.yaml
