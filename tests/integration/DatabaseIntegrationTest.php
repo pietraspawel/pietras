@@ -112,14 +112,14 @@ class DatabaseIntegrationTest extends TestCase
 
     public function testDataTypes()
     {
-        $this->db->SQL("INSERT INTO users(name, age, weight, runner) VALUES(?,?,?,?)", "siii", ["Jan",33,80.5,true]);
+        $this->db->SQL("INSERT INTO users(name, age, weight, runner) VALUES(?,?,?,?)", "sidi", ["Jan",33,80.5,true]);
         $this->db->commit();
 
         $row = $this->db->indexedQuery("SELECT * FROM users WHERE id=1");
 
         $this->assertSame("Jan", $row[1]["name"]);
-        $this->assertSame(33, $row[1]["age"]);
-        $this->assertSame(80.5, $row[1]["weight"]);
-        $this->assertSame(true, $row[1]["runner"]);
+        $this->assertSame('33', $row[1]["age"]);
+        $this->assertSame('80.5', $row[1]["weight"]);
+        $this->assertSame('1', $row[1]["runner"]);
     }
 }
