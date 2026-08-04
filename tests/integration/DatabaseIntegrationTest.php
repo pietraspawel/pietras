@@ -47,6 +47,37 @@ class DatabaseIntegrationTest extends TestCase
         $this->assertSame("Paweł", $name);
     }
 
+    public function testUpdateUser()
+    {
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Paweł"]);
+        $this->db->commit();
+
+        $age = $this->db->singleValueQuery("SELECT age FROM users WHERE name=?", "s", ["Paweł"]);
+        $this->assertSame(null, $age);
+
+        $this->db->SQL("UPDATE users SET age=? WHERE name=?", "is", [46, "Paweł"]);
+        $this->db->commit();
+
+        $age = $this->db->singleValueQuery("SELECT age FROM users WHERE name=?", "s", ["Paweł"]);
+        $this->assertSame(46, $age);
+    }
+
+    public function testDeleteUser()
+    {
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Jan"]);
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Adam"]);
+        $this->db->commit();
+
+        $rows = $this->db->arrayQuery("SELECT name FROM users ORDER BY name");
+        $this->assertCount(2, $rows);
+
+        $this->db->SQL("DELETE FROM users WHERE name=?", "s", ["Jan"]);
+        $this->db->commit();
+
+        $rows = $this->db->arrayQuery("SELECT name FROM users ORDER BY name");
+        $this->assertCount(1, $rows);
+    }
+
     public function testArrayQuery()
     {
         $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Jan"]);
