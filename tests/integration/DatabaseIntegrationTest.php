@@ -23,7 +23,6 @@ class DatabaseIntegrationTest extends TestCase
 
     protected function tearDown(): void
     {
-        // Sprzątanie po teście.
         $this->db->SQL("TRUNCATE TABLE users");
         $this->db->commit();
 
@@ -32,42 +31,20 @@ class DatabaseIntegrationTest extends TestCase
 
     public function testInsertUser()
     {
-        $this->db->SQL(
-            "INSERT INTO users(name, age) VALUES(?, ?)",
-            "si",
-            ["Paweł", 46]
-        );
-
+        $this->db->SQL("INSERT INTO users(name, age) VALUES(?, ?)", "si", ["Paweł", 46]);
         $this->db->commit();
 
-        $name = $this->db->singleValueQuery(
-            "SELECT name FROM users WHERE age=?",
-            "i",
-            [46]
-        );
-
+        $name = $this->db->singleValueQuery("SELECT name FROM users WHERE age=?", "i", [46]);
         $this->assertSame("Paweł", $name);
     }
 
     public function testArrayQuery()
     {
-        $this->db->SQL(
-            "INSERT INTO users(name) VALUES(?)",
-            "s",
-            ["Jan"]
-        );
-
-        $this->db->SQL(
-            "INSERT INTO users(name) VALUES(?)",
-            "s",
-            ["Adam"]
-        );
-
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Jan"]);
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Adam"]);
         $this->db->commit();
 
-        $rows = $this->db->arrayQuery(
-            "SELECT name FROM users ORDER BY name"
-        );
+        $rows = $this->db->arrayQuery("SELECT name FROM users ORDER BY name");
 
         $this->assertCount(2, $rows);
         $this->assertSame("Adam", $rows[0]["name"]);
@@ -76,34 +53,18 @@ class DatabaseIntegrationTest extends TestCase
 
     public function testRollback()
     {
-        $this->db->SQL(
-            "INSERT INTO users(name) VALUES(?)",
-            "s",
-            ["Test"]
-        );
-
+        $this->db->SQL("INSERT INTO users(name) VALUES(?)", "s", ["Test"]);
         $this->db->rollback();
 
-        $count = $this->db->singleValueQuery(
-            "SELECT COUNT(*) FROM users"
-        );
-
+        $count = $this->db->singleValueQuery("SELECT COUNT(*) FROM users");
         $this->assertSame("0", $count);
     }
 
     public function testSqlHistory()
     {
-        $this->db->SQL(
-            "SELECT ?",
-            "i",
-            [123]
-        );
-
+        $this->db->SQL("SELECT ?", "i", [123]);
         $history = $this->db->getSqlsHistory();
 
-        $this->assertSame(
-            "SELECT 123",
-            end($history)
-        );
+        $this->assertSame("SELECT 123", end($history));
     }
 }
