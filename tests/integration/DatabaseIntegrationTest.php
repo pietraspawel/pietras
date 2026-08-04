@@ -16,6 +16,15 @@ class DatabaseIntegrationTest extends TestCase
         $this->db = Database::createFromConfig($config);
         $this->db->setDebug(true);
 
+        //Wygląd bazy do testów.
+        // $this->db->SQL("
+        //     CREATE TABLE IF NOT EXISTS users (
+        //         id INT AUTO_INCREMENT PRIMARY KEY,
+        //         name VARCHAR(255),
+        //         age INT
+        //     )
+        // ");
+
         // Czyścimy bazę przed każdym testem.
         $this->db->SQL("TRUNCATE TABLE users");
         $this->db->commit();
