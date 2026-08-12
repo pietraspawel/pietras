@@ -2,7 +2,7 @@
 
 namespace pietras\basic;
 
-use pietras\basic\model\Config;
+use pietras\basic\Model\Config;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Environment as Twig;
 

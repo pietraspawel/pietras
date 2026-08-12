@@ -1,6 +1,6 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 /**
 * Udostępnia metody umożliwiające sprawdzenie, czy uruchomienie skryptu jest dozwolone.

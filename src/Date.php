@@ -1,6 +1,6 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 class Date extends \DateTime
 {

@@ -3,7 +3,7 @@
 namespace pietras\basic;
 
 use PHPUnit\Framework\TestCase;
-use pietras\basic\model\Config;
+use pietras\basic\Model\Config;
 
 class DatabaseIntegrationTest extends TestCase
 {

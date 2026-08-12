@@ -2,7 +2,7 @@
 
 namespace pietras\basic;
 
-use pietras\basic\model\Route;
+use pietras\basic\Model\Route;
 
 /**
  * Dostarcza metody do routowania adresów.

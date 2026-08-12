@@ -1,6 +1,6 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 /**
 * Udostępnia metody pomocne przy pisaniu skryptów konsolowych.

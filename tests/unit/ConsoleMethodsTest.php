@@ -1,9 +1,9 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 use PHPUnit\Framework\TestCase;
-use pietras\ConsoleMethods as cm;
+use pietras\basic\ConsoleMethods as cm;
 
 class ConsoleMethodsTest extends TestCase
 {

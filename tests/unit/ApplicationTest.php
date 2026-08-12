@@ -3,7 +3,7 @@
 namespace pietras\basic;
 
 use PHPUnit\Framework\TestCase;
-use pietras\basic\model\Config;
+use pietras\basic\Model\Config;
 
 class ApplicationTest extends TestCase
 {
@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase
     {
         $this->assertSame("dev", $this->app->getConfig()->get('MODE'));
         $this->assertSame("cache", $this->app->getConfig()->get('cache_path'));
-        $this->assertSame("pietras\\controller", $this->app->getConfig()->get('controllersNamespace'));
+        $this->assertSame("pietras\\Controller", $this->app->getConfig()->get('controllersNamespace'));
     }
 
     public function testErrorReporting()
@@ -93,7 +93,7 @@ class ApplicationTest extends TestCase
 
     public function testSetController()
     {
-        $controller = new \pietras\controller\Test($this->app);
+        $controller = new \pietras\Controller\Test($this->app);
         $this->app->setController("test");
         $this->assertEquals($controller, $this->app->getController());
         $this->assertInstanceOf(\pietras\Controller\Test::class, $this->app->getController());
@@ -103,7 +103,7 @@ class ApplicationTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
-            "Controller pietras\\controller\\DoesNotExist does not exist."
+            "Controller pietras\\Controller\\DoesNotExist does not exist."
         );
         $this->app->setController("DoesNotExist");
     }
@@ -112,7 +112,7 @@ class ApplicationTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
-            "pietras\\controller\\WrongClass is not a controller."
+            "pietras\\Controller\\WrongClass is not a controller."
         );
         $this->app->setController("WrongClass");
     }

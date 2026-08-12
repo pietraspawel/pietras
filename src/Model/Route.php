@@ -1,6 +1,6 @@
 <?php
 
-namespace pietras\basic\model;
+namespace pietras\basic\Model;
 
 class Route
 {

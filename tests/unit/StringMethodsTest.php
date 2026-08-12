@@ -1,9 +1,9 @@
 <?php
 
-namespace pietras;
+namespace pietras\basic;
 
 use PHPUnit\Framework\TestCase;
-use pietras\StringMethods as sm;
+use pietras\basic\StringMethods as sm;
 
 class StringMethodsTest extends TestCase
 {

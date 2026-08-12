@@ -2,7 +2,7 @@
 
 namespace pietras\basic;
 
-use pietras\basic\model\Config;
+use pietras\basic\Model\Config;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
