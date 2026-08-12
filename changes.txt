@@ -2,6 +2,7 @@
     Router->matchRoute jest publiczna
     namespaces wg konwencji PSR-4
     dodano declare(strict_types=1); do wszystkich klas
+    przejście na wersję 2.0 (php8.2)
 2026-08-04
     testy dla src/Database
 2026-07-31
