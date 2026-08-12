@@ -63,4 +63,13 @@ class RouterTest extends TestCase
         $this->assertNull($this->router->findController("/nie-ma-takiej"));
         $this->assertNull($this->router->findController("/user/123/edit"));
     }
+
+    public function testMatchRoute()
+    {
+        $this->assertSame([], $this->router->matchRoute("/wzorzec", "/wzorzec"));
+        $this->assertSame([], $this->router->matchRoute("/wzorzec", "/wzorzec/"));
+        $this->assertSame(null, $this->router->matchRoute("/wzorzec", "/wzorzec/add"));
+        $this->assertSame([ 'id' => '123' ], $this->router->matchRoute("/wzorzec/{id}/edit", "/wzorzec/123/edit"));
+        $this->assertSame(null, $this->router->matchRoute("/wzorzec/{id}/edit", "/wzorzec/123"));
+    }
 }

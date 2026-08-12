@@ -46,7 +46,7 @@ class Router
     // Porównuje wzorzec z konfiguracji z aktualną ścieżką.
     // Zwraca null jeśli nie pasuje.
     // Jeśli pasuje zwraca tablicę z parametrami (lub pustą, jeśli nie ma parametrów).
-    private function matchRoute(string $pattern, string $currentPath): ?array
+    public function matchRoute(string $pattern, string $currentPath): ?array
     {
         $patternParts = explode('/', trim($pattern, '/'));
         $pathParts = explode('/', trim($currentPath, '/'));
