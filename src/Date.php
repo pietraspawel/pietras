@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace pietras\basic;
 
 class Date extends \DateTime

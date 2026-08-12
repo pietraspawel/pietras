@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace pietras\basic;
 
 /**
@@ -64,7 +66,7 @@ class StringMethods
     public static function camelToSnake(string $string): string
     {
         $ret = "";
-        for ($i=0; $i < strlen($string); $i++) { 
+        for ($i = 0; $i < strlen($string); $i++) {
             if (ctype_upper($string[$i])) {
                 $ret .= "_" . strtolower($string[$i]);
             } else {
