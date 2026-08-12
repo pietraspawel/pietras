@@ -1,5 +1,7 @@
 2026-08-12
     Router->matchRoute jest publiczna
+    namespaces wg konwencji PSR-4
+    dodano declare(strict_types=1); do wszystkich klas
 2026-08-04
     testy dla src/Database
 2026-07-31
