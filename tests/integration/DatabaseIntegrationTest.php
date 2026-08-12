@@ -13,7 +13,7 @@ class DatabaseIntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        $config = Config::createFromYaml("config/database_pietras_test.yaml");
+        $config = Config::createFromYaml("config/database.yaml");
 
         $this->db = Database::createFromConfig($config);
         $this->db->setDebug(true);
