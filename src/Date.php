@@ -6,7 +6,7 @@ namespace pietras\basic;
 
 class Date extends \DateTime
 {
-    public function __toString(): ?string
+    public function __toString(): string
     {
         return $this->format("d.m.Y H:i:s");
     }
